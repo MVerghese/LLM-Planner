@@ -1,0 +1,86 @@
+[
+  {
+    "trial": "trial_T20190908_044113_026049",
+    "scene": "FloorPlan219",
+    "type": "look_at_obj_in_light",
+    "repeat_idx": 0,
+    "goal_instr": "Pick up the cell phone and look at it by the light of the lamp",
+    "initial_high_level_plans": [
+      "Navigation cellphone",
+      "PickupObject cellphone",
+      "Navigation desklamp",
+      "ToggleObjectOn desklamp"
+    ],
+    "completed_plans": [
+      "Navigation cellphone",
+      "PickupObject cellphone"
+    ],
+    "failed_plans": [
+      {
+        "plan": "Navigation desklamp",
+        "error": "Cannot find Desklamp"
+      },
+      {
+        "plan": "ToggleObjectOn desklamp",
+        "error": "Cannot find Desklamp to turn on"
+      }
+    ],
+    "success": false
+  },
+  {
+    "trial": "trial_T20190908_044113_026049",
+    "scene": "FloorPlan219",
+    "type": "look_at_obj_in_light",
+    "repeat_idx": 1,
+    "goal_instr": "Turn on the bedroom lamp.",
+    "initial_high_level_plans": [
+      "Navigation desklamp",
+      "ToggleObjectOn desklamp"
+    ],
+    "completed_plans": [],
+    "failed_plans": [
+      {
+        "plan": "Navigation desklamp",
+        "error": "Cannot find Desklamp"
+      },
+      {
+        "plan": "ToggleObjectOn desklamp",
+        "error": "Cannot find Desklamp to turn on"
+      }
+    ],
+    "success": false
+  },
+  {
+    "trial": "trial_T20190908_044113_026049",
+    "scene": "FloorPlan219",
+    "type": "look_at_obj_in_light",
+    "repeat_idx": 2,
+    "goal_instr": "examine a phone with a lamp",
+    "initial_high_level_plans": [
+      "Navigation desk",
+      "PickupObject cellphone",
+      "Navigation desklamp",
+      "ToggleObjectOn desklamp"
+    ],
+    "completed_plans": [],
+    "failed_plans": [
+      {
+        "plan": "Navigation desk",
+        "error": "Cannot find Desk"
+      },
+      {
+        "plan": "PickupObject cellphone",
+        "error": "Cellphone is not visible because it is in Dresser"
+      },
+      {
+        "plan": "Navigation desklamp",
+        "error": "Cannot find Desklamp"
+      },
+      {
+        "plan": "ToggleObjectOn desklamp",
+        "error": "Cannot find Desklamp to turn on"
+      }
+    ],
+    "success": false
+  }
+]

@@ -54,8 +54,13 @@ class AlfredEvaluator:
         with open(config_file) as reader:
             self.config = yaml.safe_load(reader)
         
-        # Initialize OpenAI client
-        self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        # # Initialize OpenAI client
+        # self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        # Initialize VLLM client
+        self.client = OpenAI(
+            base_url="http://localhost:8000/v1",
+            api_key="token-abc123",
+        )
         
         # Initialize LLM planner
         self.llm_planner = LLM_Planner(
@@ -75,7 +80,7 @@ class AlfredEvaluator:
         self.tasks = self._prepare_tasks()
         
         # Initialize the sentence transformer for object name matching
-        self.obj_encoder = SentenceTransformer(self.config["llm_planner"]["emb_model_name"])
+        self.obj_encoder = SentenceTransformer(self.config["llm_planner"]["emb_model_name"], device="cuda:1")
         self.obj_sim_threshold = self.config["llm_planner"].get("obj_sim_threshold", 0.8)  # Default similarity threshold
         
     def _prepare_tasks(self):
@@ -133,6 +138,41 @@ class AlfredEvaluator:
                 temperature=0.0
             )
             return response.choices[0].message.content
+        elif engine == 'Qwen/Qwen3-VL-8B-Instruct' or engine == 'Qwen/Qwen3-VL-30B-A3B-Instruct-FP8':
+             # Create the base message content
+            message_content = []
+            
+
+            # Add image if provided
+            if images and len(images) > 0:
+                for image in images:
+                    message_content.append({
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{image}"
+                        }
+                    })
+            
+            # Add text prompt
+            message_content.append({
+                "type": "text",
+                "text": prompt,
+            })
+            
+            # Make the API call
+            response = self.client.chat.completions.create(
+                model=engine,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": message_content,
+                    }
+                ],
+                max_tokens=300,
+                temperature=0.0
+            )
+            return response.choices[0].message.content
+
         else:
             raise ValueError(f"{engine} is not supported!")
 
@@ -722,9 +762,35 @@ def main():
             json.dump(json_results, f, indent=2)
         log.info(f"Results saved to {result_file}")
 
+def run_with_config(config_path, dry_run=False):
+    """Helper function to run evaluation with a specific config file"""
+    evaluator = AlfredEvaluator(config_path)
+    evaluator.preprocess_dataset()
+    results = evaluator.run_evaluation(dry_run=dry_run)
+    return results
+
+def run_multiple_configs(config_paths, dry_run=False):
+    """Helper function to run evaluation with multiple config files"""
+    all_results = {}
+    for config_path in config_paths:
+        log.info(f"Running evaluation with config: {config_path}")
+        results = run_with_config(config_path, dry_run=dry_run)
+        all_results[config_path] = results
+    for results in all_results.values():
+        n = len(results)
+        n_success = sum(1 for e in results if e['success'])
+        log.info(f"Config: {config_path} - Success rate: {n_success / n * 100:.2f} % ({n_success}/{n})")
+    return all_results
+
 if __name__ == '__main__':
     main()
-
+    # config_files = [
+    #     "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/config/config_alfred_Qwen3-VL-30B.yaml",
+    #     "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/config/config_alfred_Qwen3-VL-30B_vision.yaml",
+    #     "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/config/config_alfred_Qwen3-VL-30B_dynamic.yaml",
+    #     "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/config/config_alfred_Qwen3-VL-30B_dynamic_vision.yaml",
+    # ]
+    # all_results = run_multiple_configs(config_files, dry_run=False)
 
 
 

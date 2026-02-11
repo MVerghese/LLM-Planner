@@ -31,7 +31,7 @@ ACT_TO_STR = {
 
 class LLM_Planner():
     def __init__(self, knn_data_path, emb_model_name='paraphrase-MiniLM-L6-v2', debug=False):
-        self.sentence_embedder = SentenceTransformer(emb_model_name)
+        self.sentence_embedder = SentenceTransformer(emb_model_name, device="cuda:1")
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.knn_set = pd.read_pickle(knn_data_path)
         self.debug=debug
