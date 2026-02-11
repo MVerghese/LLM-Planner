@@ -13,6 +13,9 @@ from ast import literal_eval
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
 from transformers import GPT2Tokenizer
+from openai import OpenAI
+import logging
+from typing import Union
 
 # Get a logger for this module
 log = logging.getLogger(__name__)
@@ -30,12 +33,109 @@ ACT_TO_STR = {
 
 
 class LLM_Planner():
-    def __init__(self, knn_data_path, emb_model_name='paraphrase-MiniLM-L6-v2', debug=False):
-        self.sentence_embedder = SentenceTransformer(emb_model_name, device="cuda:1")
+    def __init__(self, llm_config: dict, client: OpenAI, debug: bool=False, logger: Union[logging.Logger, None] = None):
+        self.config = llm_config
+        self.sentence_embedder = SentenceTransformer(self.config["emb_model_name"], device="cuda:1")
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        self.knn_set = pd.read_pickle(knn_data_path)
+        self.knn_set = pd.read_pickle(self.config["knn_dataset_path"])
         self.debug=debug
+        self.llm_client = client
+        self.engine = self.config["engine"]
+        self.logger = logger
 
+    def llm(self, prompt, images=None, stop=["\n"]):
+        """Interface to LLM models"""
+
+        if self.engine == 'gpt-4o-mini' or self.engine == 'gpt-4o':
+            # Create the base message content
+            message_content = []
+            
+            # Add image if provided
+            if images and len(images) > 0:
+                message_content.append({
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{images[0]}"
+                    }
+                })
+            
+            # Add text prompt
+            message_content.append({
+                "type": "text",
+                "text": prompt,
+            })
+            
+            # Make the API call
+            response = self.llm_client.chat.completions.create(
+                model=self.engine,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": message_content,
+                    }
+                ],
+                max_tokens=300,
+                temperature=0.0
+            )
+            return response.choices[0].message.content
+        elif "Qwen3-VL" in self.engine:
+            # Create the base message content
+            message_content = []
+            
+
+            # Add image if provided
+            if images and len(images) > 0:
+                for image in images:
+                    message_content.append({
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{image}"
+                        }
+                    })
+            
+            # Add text prompt
+            message_content.append({
+                "type": "text",
+                "text": prompt,
+            })
+            
+            # Make the API call
+            response = self.llm_client.chat.completions.create(
+                model=self.engine,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": message_content,
+                    }
+                ],
+                max_tokens=300,
+                temperature=0.0
+            )
+            return response.choices[0].message.content
+
+        else:
+            raise ValueError(f"{self.engine} is not supported!")
+        
+    def clean_llm_output(self, llm_out):
+        """
+        Clean the LLM output by removing the 'Next Plans:' prefix and converting to a comma-separated list.
+        
+        Args:
+            llm_out (str): Raw LLM output string like "Next Plans: Navigation countertop, OpenObject microwave, ..."
+            
+        Returns:
+            list: List of cleaned plan steps
+        """
+        # Remove "Next Plans:" prefix if present
+        if "Next Plans:" in llm_out:
+            cleaned_text = llm_out.split("Next Plans:")[1].strip()
+        else:
+            cleaned_text = llm_out.strip()
+        
+        # Split by comma and strip whitespace from each item
+        plans = [plan.strip() for plan in cleaned_text.split(',')]
+        
+        return plans
 
     def knn_retrieval(self, curr_task, k):
         # Find K train examples with closest sentence embeddings to test example
@@ -259,3 +359,26 @@ class LLM_Planner():
         plan_str = ', '.join(formatted_plans)
 
         return plan_str
+
+
+    def get_high_level_plan(self, curr_task, encoded_frames):
+        """
+        Get high-level plan for the current task
+        """
+        #TODO enable multiple plan generation
+        prompt = self.generate_gpt_prompt(
+            curr_task, 
+            k=self.config["num_in_context_examples"], 
+            includeLow=self.config["use_step_instructions"], 
+            dynamic=self.config["dynamic"]
+            )
+        if self.config.get("debug", False):
+            self.logger.debug("=" * 50)
+            self.logger.debug("FULL PROMPT:")
+            self.logger.debug(prompt)
+            self.logger.debug("=" * 50)
+
+        llm_out = self.llm(prompt, images=encoded_frames, stop=['\n'])
+        high_level_plans = self.clean_llm_output(llm_out)
+
+        return high_level_plans

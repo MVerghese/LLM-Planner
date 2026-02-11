@@ -64,11 +64,10 @@ class AlfredEvaluator:
         
         # Initialize LLM planner
         self.llm_planner = LLM_Planner(
-            knn_data_path=self.config["llm_planner"]["knn_dataset_path"], 
-            emb_model_name=self.config["llm_planner"]["emb_model_name"], 
-            debug=self.config["llm_planner"]["debug"]
+            llm_config=self.config["llm_planner"],
+            client=self.client,
+            logger=log
         )
-        
         # Initialize environment
         self.env = ThorConnector(x_display=self.config["alfred"]["x_display"])
         
@@ -104,7 +103,10 @@ class AlfredEvaluator:
         return tasks
     
     def llm(self, prompt, engine, images=None, stop=["\n"]):
-        """Interface to LLM models"""
+        """
+        Interface to LLM models
+        This function is deprecated with the shift of LLM processing to the planner
+        """
 
         if engine == 'gpt-4o-mini' or engine == 'gpt-4o':
             # Create the base message content
@@ -265,24 +267,8 @@ class AlfredEvaluator:
             log.debug("  Step instructions: Disabled")
         log.debug(f"  Visible objects: {formatted_task['vis_objs']}")
         log.debug(f"  Completed plans: {formatted_task['completed_plans']}")
-        
-        # Pass the use_step_instructions flag to generate_gpt_prompt
-        init_prompt = self.llm_planner.generate_gpt_prompt(
-            curr_task, 
-            k=self.config["llm_planner"]["num_in_context_examples"],
-            includeLow=use_step_instructions,
-            dynamic=dynamic
-        )
 
-        # Show the full prompt if debug is enabled
-        if self.config["llm_planner"].get("debug", False):
-            log.debug("=" * 50)
-            log.debug("FULL PROMPT:")
-            log.debug(init_prompt)
-            log.debug("=" * 50)
-
-        llm_out = self.llm(init_prompt, engine=engine, images=encoded_frames, stop=['\n'])
-        high_level_plans = self.clean_llm_output(llm_out)
+        high_level_plans = self.llm_planner.get_high_level_plan(curr_task, encoded_frames=encoded_frames)
         initial_high_level_plans = high_level_plans.copy()  # Store the initial plans
         
         # Display the full high-level plan more prominently
@@ -443,31 +429,15 @@ class AlfredEvaluator:
                     log.debug(f"  Visible objects: {formatted_task['vis_objs']}")
                     log.debug(f"  Completed plans: {formatted_task['completed_plans']}")
                     
-                    # Pass the use_step_instructions flag to generate_gpt_prompt
-                    new_prompt = self.llm_planner.generate_gpt_prompt(
-                        curr_task, 
-                        k=self.config["llm_planner"]["num_in_context_examples"],
-                        includeLow=use_step_instructions,
-                        dynamic=dynamic
-                    )
-
-                    # Show the full prompt if debug is enabled
-                    if self.config["llm_planner"].get("debug", False):
-                        log.debug("=" * 50)
-                        log.debug("FULL DYNAMIC REPLANNING PROMPT:")
-                        log.debug(new_prompt)
-                        log.debug("=" * 50)
-
-                    encoded_frames = []
                     
                     # Get current frame if vision is used
+                    encoded_frames = []
                     if vision:
                         curr_frame = [Image.fromarray(self.env.last_event.frame)]
                         encoded_frames = [self.encode_image(frame) for frame in curr_frame]
 
                     # Generate new plans for dynamic replanning
-                    llm_out = self.llm(new_prompt, engine=engine, images=encoded_frames, stop=['\n'])
-                    high_level_plans = self.clean_llm_output(llm_out)
+                    high_level_plans = self.llm_planner.get_high_level_plan(curr_task, encoded_frames=encoded_frames)
 
                     # Display the dynamically generated high-level plan more prominently
                     log.debug("=" * 50)
