@@ -31,6 +31,8 @@ from alfred.thor_connector import ThorConnector
 from alfred.utils import dotdict, load_task_json
 from alfred.data.preprocess import Dataset
 from hlp_planner import LLM_Planner
+import threading
+from multiprocessing.pool import ThreadPool
 
 sys.path.insert(0, '..')
 sys.path.insert(0, '')
@@ -69,7 +71,15 @@ class AlfredEvaluator:
             logger=log
         )
         # Initialize environment
-        self.env = ThorConnector(x_display=self.config["alfred"]["x_display"])
+        num_envs = self.config.get("num_workers", 1)
+        if num_envs > 1:
+            self.envs = [ThorConnector(x_display=self.config["alfred"]["x_display"]) for _ in range(num_envs)]
+            self.env_lock = threading.Lock()
+            self.envs_in_use = [False] * num_envs
+        else:
+            self.env = ThorConnector(x_display=self.config["alfred"]["x_display"])
+        
+        log.debug(f"Initialized {'multiple environments' if num_envs > 1 else 'single environment'} for evaluation")
         
         # Load task splits
         with open(self.config["alfred"]["splits"]) as f:
@@ -81,7 +91,7 @@ class AlfredEvaluator:
         # Initialize the sentence transformer for object name matching
         self.obj_encoder = SentenceTransformer(self.config["llm_planner"]["emb_model_name"], device="cuda:1")
         self.obj_sim_threshold = self.config["llm_planner"].get("obj_sim_threshold", 0.8)  # Default similarity threshold
-        
+
     def _prepare_tasks(self):
         """Prepare tasks for evaluation"""
         assert self.config["alfred"]["eval_set"] in self.splits.keys()
@@ -193,8 +203,13 @@ class AlfredEvaluator:
         _, JPEG = cv2.imencode('.jpeg', numpy_img)
         return base64.b64encode(JPEG).decode('utf-8')
 
-    def evaluate_task(self, engine, traj_data, r_idx, dynamic=False, to_print=True, vision=False, ob=''):
+    def evaluate_task(self, engine, traj_data, r_idx, dynamic=False, to_print=True, vision=False, ob='', env=None):
         """Evaluate a single task"""
+
+        # This handles using multiple environments for multiprocessing
+        if env is None:
+            env = self.env
+
         # Initialize frame history and plan tracking
         frame_history = []
         completed_plans = []
@@ -207,13 +222,13 @@ class AlfredEvaluator:
         object_toggles = traj_data['scene']['object_toggles']
 
         scene_name = f'FloorPlan{scene_num}'
-        self.env.reset(scene_name)
-        self.env.restore_scene(object_poses, object_toggles, dirty_and_empty)
+        env.reset(scene_name)
+        env.restore_scene(object_poses, object_toggles, dirty_and_empty)
 
         # Initialize and save initial frame
-        self.env.step(dict(traj_data['scene']['init_action']))
-        frame_history.append(self.env.last_event.frame.copy())
-        self.env.set_task(traj_data, dotdict(self.config["alfred"]["env_args"]), reward_type='dense')
+        env.step(dict(traj_data['scene']['init_action']))
+        frame_history.append(env.last_event.frame.copy())
+        env.set_task(traj_data, dotdict(self.config["alfred"]["env_args"]), reward_type='dense')
 
         # Get task instructions
         goal_instr = traj_data['turk_annotations']['anns'][r_idx]['task_desc']
@@ -237,11 +252,11 @@ class AlfredEvaluator:
         # Get initial frames if vision model is used
         encoded_frames = []
         if vision:
-            init_frames = [Image.fromarray(self.env.last_event.frame)]
+            init_frames = [Image.fromarray(env.last_event.frame)]
             encoded_frames = [self.encode_image(frame) for frame in init_frames]
 
         # Setup for LLM-Planner
-        seen_objs = self.env.get_visible_objects().split(", ")
+        seen_objs = env.get_visible_objects().split(", ")
 
         # Get initial high-level plan
         curr_task = {
@@ -302,9 +317,9 @@ class AlfredEvaluator:
                 object_name = ""
             
             try:
-                action_ret = self.env.llm_skill_interact(plan)
+                action_ret = env.llm_skill_interact(plan)
                 # Save frame after each action
-                frame_history.append(self.env.last_event.frame.copy())
+                frame_history.append(env.last_event.frame.copy())
             except Exception as e:
                 # Handle assertion errors or other exceptions from Thor connector
                 log.warning(f"Error executing '{plan}': {str(e)}")
@@ -316,7 +331,7 @@ class AlfredEvaluator:
                     continue
                 elif "object" in str(e).lower() and "not found" in str(e).lower() and object_name:
                     # Try fuzzy matching if object not found
-                    available_objects = self.env.get_visible_objects().split(", ")
+                    available_objects = env.get_visible_objects().split(", ")
                     matched_obj, similarity = self.match_object_name(object_name, available_objects)
                     
                     if matched_obj:
@@ -326,7 +341,7 @@ class AlfredEvaluator:
                         
                         try:
                             # Try again with the matched object
-                            action_ret = self.env.llm_skill_interact(matched_plan)
+                            action_ret = env.llm_skill_interact(matched_plan)
                             if action_ret['success']:
                                 log.debug(f"SUCCESS: '{matched_plan}' executed successfully (fuzzy match)")
                                 completed_plans.append(matched_plan)
@@ -355,7 +370,7 @@ class AlfredEvaluator:
                 # Check for object not found and try fuzzy matching
                 if "object" in action_ret['message'].lower() and "not found" in action_ret['message'].lower() and object_name:
                     # Try fuzzy matching if object not found
-                    available_objects = self.env.get_visible_objects().split(", ")
+                    available_objects = env.get_visible_objects().split(", ")
                     matched_obj, similarity = self.match_object_name(object_name, available_objects)
                     
                     if matched_obj:
@@ -365,7 +380,7 @@ class AlfredEvaluator:
                         
                         try:
                             # Try again with the matched object
-                            action_ret = self.env.llm_skill_interact(matched_plan)
+                            action_ret = env.llm_skill_interact(matched_plan)
                             if action_ret['success']:
                                 log.debug(f"SUCCESS: '{matched_plan}' executed successfully (fuzzy match)")
                                 completed_plans.append(matched_plan)
@@ -394,7 +409,7 @@ class AlfredEvaluator:
                     replanning_count += 1
                     log.debug(f"Dynamic replanning attempt {retry_count}/{max_retries} for current action (Total: {replanning_count}/{max_replanning})")
                     
-                    curr_vis_objs = self.env.get_visible_objects().split(", ")
+                    curr_vis_objs = env.get_visible_objects().split(", ")
                     
                     # Add new objects to seen_objs without duplicates
                     for obj in curr_vis_objs:
@@ -433,7 +448,7 @@ class AlfredEvaluator:
                     # Get current frame if vision is used
                     encoded_frames = []
                     if vision:
-                        curr_frame = [Image.fromarray(self.env.last_event.frame)]
+                        curr_frame = [Image.fromarray(env.last_event.frame)]
                         encoded_frames = [self.encode_image(frame) for frame in curr_frame]
 
                     # Generate new plans for dynamic replanning
@@ -456,8 +471,8 @@ class AlfredEvaluator:
             log.warning(f"Task ended because maximum replanning attempts ({max_replanning}) were reached.")
         
         # Check if goal was satisfied
-        goal_satisfied = self.env.get_goal_satisfied()
-        log.debug('target goal: ' + json.dumps(self.env.task.get_targets()))
+        goal_satisfied = env.get_goal_satisfied()
+        log.debug('target goal: ' + json.dumps(env.task.get_targets()))
         log.debug('success: ' + str(goal_satisfied))
         if goal_satisfied:
             success = True
@@ -540,6 +555,92 @@ class AlfredEvaluator:
                     # If we can't even create a failure result, just continue
                     log.error("Failed to create failure result entry")
         
+        # Print results
+        self._print_results(results, start)
+        return results
+
+    def run_evaluation_helper(self, task, task_idx, save_path):
+        """Helper function to run evaluation on a single task"""
+        with self.env_lock:
+            env_index = self.envs_in_use.index(False)
+            if env_index is None:
+                raise RuntimeError("No available environments for evaluation")
+            self.envs_in_use[env_index] = True
+
+        try:
+            log.debug(task)
+            traj_data = load_task_json(task)
+            r_idx = task['repeat_idx']
+            log.debug(f"Evaluating ({task_idx+1}/{len(self.tasks)}): {traj_data['root']}")
+            
+            result = self.evaluate_task(
+                self.config["llm_planner"]["engine"],
+                traj_data, 
+                r_idx,
+                dynamic=self.config["llm_planner"]["dynamic"],
+                vision=self.config["llm_planner"]["vision"],
+                env=self.envs[env_index]
+            )
+            with self.env_lock:
+                self.envs_in_use[env_index] = False
+
+            # Save result for debugging if enabled
+            if self.config.get("save_results", False):
+                self.save_result(result, save_path)
+            
+            return result
+
+        except Exception as e:
+            with self.env_lock:
+                self.envs_in_use[env_index] = False
+            import traceback
+            traceback.print_exc()
+            log.error(f"Error processing task {task_idx+1}/{len(self.tasks)}: {repr(e)}")
+            
+            # Create a failure result to keep tracking progress
+            try:
+                failure_result = {
+                    'trial': task['task_id'] if 'task_id' in task else f"unknown_task_{task_idx}",
+                    'scene': f"scene_{task_idx}",
+                    'type': "failed",
+                    'repeat_idx': task['repeat_idx'] if 'repeat_idx' in task else 0,
+                    'goal_instr': "Task processing failed with exception",
+                    'inferred_steps': [f"ERROR: {repr(e)}"],
+                    'success': False
+                }
+                
+                
+                # Save failure result if saving is enabled
+                if self.config.get("save_results", False):
+                    self.save_result(failure_result, save_path)
+
+                return failure_result
+            except:
+                # If we can't even create a failure result, just continue
+                log.error("Failed to create failure result entry")
+
+    def run_evaluation_multithreaded(self, dry_run=False):
+        """Run evaluation on all tasks"""
+        results = []
+        save_path = self.config["out_dir"]
+        
+        # Create the output directory if it doesn't exist
+        if self.config.get("save_results", False):
+            save_path = os.path.join(self.config["out_dir"], "results")
+            os.makedirs(save_path, exist_ok=True)
+
+        if dry_run:
+            log.info("Dry run mode enabled. Only evaluating 3 task.")
+            self.tasks = self.tasks[:3]
+        
+        # Main eval loop
+        start = time.time()
+        task_idxs = range(len(self.tasks))
+        save_paths = [save_path] * len(self.tasks)
+        print(self.tasks[0])
+        with ThreadPool(processes=self.config.get("num_workers", 1)) as pool:
+            results = pool.starmap(self.run_evaluation_helper, zip(self.tasks, task_idxs, save_paths))
+
         # Print results
         self._print_results(results, start)
         return results
@@ -714,8 +815,12 @@ def main():
     evaluator.preprocess_dataset()
     
     # Run evaluation
-    results = evaluator.run_evaluation(dry_run=args.dry_run)
-    
+    num_workers = evaluator.config.get("num_workers", 1)
+    if num_workers > 1:
+        results = evaluator.run_evaluation_multithreaded(dry_run=args.dry_run)
+    else:
+        results = evaluator.run_evaluation(dry_run=args.dry_run)
+
     # Save results if configured
     if evaluator.config.get("save_results", False):
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -751,6 +856,60 @@ def run_multiple_configs(config_paths, dry_run=False):
         n_success = sum(1 for e in results if e['success'])
         log.info(f"Config: {config_path} - Success rate: {n_success / n * 100:.2f} % ({n_success}/{n})")
     return all_results
+
+def run_evaluation_helper(task, task_idx, save_path):
+    """Helper function to run evaluation on a single task"""
+    created = multiprocessing.Process()
+    worker_number = created._identity[0]
+    print(f"Initialized worker {worker_number} for evaluation")
+    try:
+        log.debug(task)
+        traj_data = load_task_json(task)
+        r_idx = task['repeat_idx']
+        log.debug(f"Evaluating ({task_idx+1}/{len(self.tasks)}): {traj_data['root']}")
+        
+        result = self.evaluate_task(
+            self.config["llm_planner"]["engine"],
+            traj_data, 
+            r_idx,
+            dynamic=self.config["llm_planner"]["dynamic"],
+            vision=self.config["llm_planner"]["vision"],
+            env=self.envs[worker_number - 1]
+        )
+        
+        
+        # Save result for debugging if enabled
+        if self.config.get("save_results", False):
+            self.save_result(result, save_path)
+        
+        return result
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        log.error(f"Error processing task {task_idx+1}/{len(self.tasks)}: {repr(e)}")
+        
+        # Create a failure result to keep tracking progress
+        try:
+            failure_result = {
+                'trial': task['task_id'] if 'task_id' in task else f"unknown_task_{task_idx}",
+                'scene': f"scene_{task_idx}",
+                'type': "failed",
+                'repeat_idx': task['repeat_idx'] if 'repeat_idx' in task else 0,
+                'goal_instr': "Task processing failed with exception",
+                'inferred_steps': [f"ERROR: {repr(e)}"],
+                'success': False
+            }
+            
+            
+            # Save failure result if saving is enabled
+            if self.config.get("save_results", False):
+                self.save_result(failure_result, save_path)
+
+            return failure_result
+        except:
+            # If we can't even create a failure result, just continue
+            log.error("Failed to create failure result entry")
 
 if __name__ == '__main__':
     main()

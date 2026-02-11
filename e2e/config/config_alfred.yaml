@@ -3,6 +3,7 @@ name: alfred
 out_dir: "./"
 debug: False # Used to debug a single task. Modify the line mentioned by NOTE in src/run_eval.py
 save_results: True  # Enable saving results for debugging
+num_workers: 1
 
 llm_planner:
   engine: "Qwen/Qwen3-VL-8B-Instruct"  # Specify the LLM engine to use
