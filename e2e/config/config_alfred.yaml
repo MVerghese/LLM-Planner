@@ -1,6 +1,6 @@
 name: alfred
 
-out_dir: "./"
+out_dir: "./Tree_Search_Transition_Prob/"
 debug: False # Used to debug a single task. Modify the line mentioned by NOTE in src/run_eval.py
 save_results: True  # Enable saving results for debugging
 num_workers: 1
@@ -14,9 +14,15 @@ llm_planner:
   knn_dataset_path: "src/knn_set.pkl"
   emb_model_name: "paraphrase-MiniLM-L6-v2"
   num_in_context_examples: 9
+  use_mmr: False  # Whether to use Maximal Marginal Relevance for selecting in-context examples
+  mmr_lambda: 0.8  # Lambda parameter for MMR (between 0 and 1)
   use_step_instructions: False  # Set to False to disable step instructions
   obj_sim_threshold: 0.8  # Threshold for fuzzy object matching (0.0 to 1.0)
-  debug: False
+  debug: True
+  planner: "tree_search"
+  mode: "transition_prob"
+  confidence_threshold: 0.90
+  max_question_iterations: 5
 
 
 alfred:

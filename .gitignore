@@ -2,9 +2,10 @@
 e2e/alfred/data/json_2.1.0/
 e2e/results
 e2e/results*
+e2e/prompt_iteration
 
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL file / txt outputs
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.txt

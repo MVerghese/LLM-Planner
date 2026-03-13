@@ -191,6 +191,7 @@ class ThorConnector(ThorEnv):
         x = math.radians(x)
         y = math.radians(y)
         return math.degrees(math.atan2(math.sin(x - y), math.cos(x - y)))
+    
     def nav_obj(self, target_obj: str, prefer_sliced=False):
         log.debug(f'Navigation to {target_obj} (prefer_sliced={prefer_sliced})')
         objects = self.last_event.metadata['objects']
@@ -286,7 +287,7 @@ class ThorConnector(ThorEnv):
 
             if (only_pickupable is False or obj['pickupable']) and \
                     (only_toggleable is False or obj['toggleable']) and \
-                    obj['objectId'].split('|')[0].casefold() == obj_name.casefold() and \
+                    (obj['objectId'].split('|')[0].casefold() == obj_name.casefold() or len(obj['objectId'].split('|')) == 5 and obj['objectId'].split('|')[-1].casefold() == obj_name.casefold()) and \
                     (get_inherited is False or len(obj['objectId'].split('|')) == 5):
                 if obj["distance"] < min_distance:
                     penalty_advantage = 0  # low priority for objects in closable receptacles such as fridge, microwave

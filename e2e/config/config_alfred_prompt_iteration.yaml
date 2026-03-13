@@ -1,0 +1,38 @@
+name: alfred
+
+out_dir: "./prompt_iteration/"
+debug: False # Used to debug a single task. Modify the line mentioned by NOTE in src/run_eval.py
+save_results: True  # Enable saving results for debugging
+num_workers: 1
+criteria: "subgoal_success_rate"  # Criteria for selecting new prompts "task_success", "reward", "subgoal_success_rate"
+base_results_path: "./train_results/"  # Path to initial results to start from
+iterations: 20  # Number of prompt iteration rounds to perform
+
+
+llm_planner:
+  engine: "Qwen/Qwen3-VL-8B-Instruct"  # Specify the LLM engine to use
+  vision: False
+  dynamic: True
+  max_retries: 1  # Maximum number of retries per action
+  max_replanning: 5  # Maximum number of dynamic replanning attempts per task
+  knn_dataset_path: "src/knn_set.pkl"
+  emb_model_name: "paraphrase-MiniLM-L6-v2"
+  num_in_context_examples: 9
+  exclude_perfect_matches: False  # Exclude perfect matches from in-context examples
+  use_step_instructions: False  # Set to False to disable step instructions
+  obj_sim_threshold: 0.8  # Threshold for fuzzy object matching (0.0 to 1.0)
+  debug: False
+  planner: "tree_search"
+
+
+alfred:
+  env_args:
+    data: alfred/data/json_2.1.0
+    pframe: 300
+    fast_epoch: false
+    reward_config: alfred/models/config/rewards.json
+    max_steps: 1000
+    pp_folder: pp
+  x_display: '1'
+  eval_set: 'train'  # valid_seen, valid_unseen
+  splits: alfred/data/splits/oct21.json

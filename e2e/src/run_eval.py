@@ -26,13 +26,22 @@ import logging
 import textwrap
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
+import pandas as pd
+from utils import encode_image
 
 from alfred.thor_connector import ThorConnector
 from alfred.utils import dotdict, load_task_json
 from alfred.data.preprocess import Dataset
-from hlp_planner import LLM_Planner
+from hlp_planner import LLM_Planner, Tree_Search_LLM_Planner, Entropy_reduction_LLM_Planner, GT_Planner
 import threading
 from multiprocessing.pool import ThreadPool
+
+PLANNERS = {
+    "llm": LLM_Planner,
+    "tree_search": Tree_Search_LLM_Planner,
+    "entropy_reduction": Entropy_reduction_LLM_Planner,
+    "gt": GT_Planner
+}
 
 sys.path.insert(0, '..')
 sys.path.insert(0, '')
@@ -65,7 +74,7 @@ class AlfredEvaluator:
         )
         
         # Initialize LLM planner
-        self.llm_planner = LLM_Planner(
+        self.llm_planner = PLANNERS[self.config["llm_planner"]["planner"]](  # Use the planner name from config
             llm_config=self.config["llm_planner"],
             client=self.client,
             logger=log
@@ -91,6 +100,7 @@ class AlfredEvaluator:
         # Initialize the sentence transformer for object name matching
         self.obj_encoder = SentenceTransformer(self.config["llm_planner"]["emb_model_name"], device="cuda:1")
         self.obj_sim_threshold = self.config["llm_planner"].get("obj_sim_threshold", 0.8)  # Default similarity threshold
+        self.knn_set = pd.read_pickle(self.config["llm_planner"]["knn_dataset_path"])
 
     def _prepare_tasks(self):
         """Prepare tasks for evaluation"""
@@ -105,7 +115,7 @@ class AlfredEvaluator:
         # Debug mode
         if self.config.get("debug", False):
             for task in tasks:
-                if 'trial_T20190906_201106_979461' in task['task']: #NOTE Change this to the task you want to debug
+                if 'trial_T20190909_061130_844814' in task['task']: #NOTE Change this to the task you want to debug
                     new_task = [task]
                     break
             tasks = new_task
@@ -188,20 +198,7 @@ class AlfredEvaluator:
         else:
             raise ValueError(f"{engine} is not supported!")
 
-    def encode_image(self, img):
-        """Encode image to base64 string"""
-        # Convert PIL Image to numpy array if needed
-        if isinstance(img, Image.Image):
-            numpy_img = np.array(img)
-        else:
-            numpy_img = img
-            
-        # Convert RGB to BGR for OpenCV
-        if len(numpy_img.shape) == 3 and numpy_img.shape[2] == 3:
-            numpy_img = cv2.cvtColor(numpy_img, cv2.COLOR_RGB2BGR)
-            
-        _, JPEG = cv2.imencode('.jpeg', numpy_img)
-        return base64.b64encode(JPEG).decode('utf-8')
+
 
     def evaluate_task(self, engine, traj_data, r_idx, dynamic=False, to_print=True, vision=False, ob='', env=None):
         """Evaluate a single task"""
@@ -214,6 +211,7 @@ class AlfredEvaluator:
         frame_history = []
         completed_plans = []
         failed_plans = []
+        dynamic_plans = []
         
         # Setup scene
         scene_num = traj_data['scene']['scene_num']
@@ -253,7 +251,8 @@ class AlfredEvaluator:
         encoded_frames = []
         if vision:
             init_frames = [Image.fromarray(env.last_event.frame)]
-            encoded_frames = [self.encode_image(frame) for frame in init_frames]
+            encoded_frames = [encode_image(frame) for frame in init_frames]
+            # print("Added initial frame")
 
         # Setup for LLM-Planner
         seen_objs = env.get_visible_objects().split(", ")
@@ -318,8 +317,7 @@ class AlfredEvaluator:
             
             try:
                 action_ret = env.llm_skill_interact(plan)
-                # Save frame after each action
-                frame_history.append(env.last_event.frame.copy())
+                
             except Exception as e:
                 # Handle assertion errors or other exceptions from Thor connector
                 log.warning(f"Error executing '{plan}': {str(e)}")
@@ -327,6 +325,11 @@ class AlfredEvaluator:
                     log.warning(f"Instruction '{plan}' not supported. Skipping and continuing.")
                     # Add to completed plans with a note that it was skipped
                     completed_plans.append(f"{plan} [SKIPPED - UNSUPPORTED]")
+                    retry_count = 0  # Reset retry counter
+                    continue
+                elif "no closest" in str(e).lower():
+                    log.warning(f"No closest object found for '{plan}'. Skipping and continuing.")
+                    completed_plans.append(f"{plan} [SKIPPED - NO CLOSEST OBJECT]")
                     retry_count = 0  # Reset retry counter
                     continue
                 elif "object" in str(e).lower() and "not found" in str(e).lower() and object_name:
@@ -354,6 +357,10 @@ class AlfredEvaluator:
                 else:
                     # For other exceptions, re-raise
                     raise
+            # Save frame after each successful action
+            if action_ret['success']:
+                frame_history.append(env.last_event.frame.copy())
+            
 
             if not action_ret['success']:
                 log.warning(action_ret['message'])
@@ -390,77 +397,85 @@ class AlfredEvaluator:
                             log.warning(f"Error executing fuzzy matched plan: {str(new_e)}")
                     else:
                         log.warning(f"No matching object found for '{object_name}'. Best similarity: {similarity:.2f} (threshold: {self.obj_sim_threshold})")
+            if vision:
+                new_frames = [Image.fromarray(env.last_event.frame)]
+                encoded_frames.extend([encode_image(frame) for frame in new_frames])
+
+
+            # Dynamic re-planning if enabled
+            if not action_ret['success'] and dynamic:
+                # Check if we've exceeded max retries for this action
+                if retry_count >= max_retries:
+                    log.warning(f"Exceeded maximum retries ({max_retries}) for this action. Moving on.")
+                    retry_count = 0
+                    continue
                 
-                # Dynamic re-planning if enabled
-                if dynamic:
-                    # Check if we've exceeded max retries for this action
-                    if retry_count >= max_retries:
-                        log.warning(f"Exceeded maximum retries ({max_retries}) for this action. Moving on.")
-                        retry_count = 0
-                        continue
-                    
-                    # Check if we've exceeded max replanning for this task
-                    if replanning_count >= max_replanning:
-                        log.warning(f"Exceeded maximum replanning attempts ({max_replanning}) for this task. Continuing with remaining plans.")
-                        retry_count = 0
-                        continue
-                    
-                    retry_count += 1
-                    replanning_count += 1
-                    log.debug(f"Dynamic replanning attempt {retry_count}/{max_retries} for current action (Total: {replanning_count}/{max_replanning})")
-                    
-                    curr_vis_objs = env.get_visible_objects().split(", ")
-                    
-                    # Add new objects to seen_objs without duplicates
-                    for obj in curr_vis_objs:
-                        if obj and obj not in seen_objs:  # Check if obj is not empty
-                            seen_objs.append(obj)
-                    
-                    # Sort for consistent output
-                    seen_objs.sort()
-                    
-                    # Update the task with current visible objects and completed plans
-                    curr_task = {
-                        "task_instr": [goal_instr],
-                        "step_instr": step_instrs,
-                        "vis_objs": ", ".join(seen_objs),  # Convert back to comma-separated string
-                        "completed_plans": completed_plans
-                    }
-                    
-                    # Format the updated task for better readability
-                    formatted_task = {
-                        "task_instr": curr_task["task_instr"][0],
-                        "step_instr": [step for sublist in curr_task["step_instr"] for step in sublist] if curr_task["step_instr"] and isinstance(curr_task["step_instr"][0], list) else curr_task["step_instr"],
-                        "vis_objs": curr_task["vis_objs"],
-                        "completed_plans": curr_task["completed_plans"]
-                    }
-                    
-                    log.debug("Updated task for dynamic replanning:")
-                    log.debug(f"  Task instruction: {formatted_task['task_instr']}")
-                    if use_step_instructions:
-                        log.debug(f"  Step instructions: {formatted_task['step_instr']}")
-                    else:
-                        log.debug("  Step instructions: Disabled")
-                    log.debug(f"  Visible objects: {formatted_task['vis_objs']}")
-                    log.debug(f"  Completed plans: {formatted_task['completed_plans']}")
-                    
-                    
-                    # Get current frame if vision is used
-                    encoded_frames = []
-                    if vision:
-                        curr_frame = [Image.fromarray(env.last_event.frame)]
-                        encoded_frames = [self.encode_image(frame) for frame in curr_frame]
+                # Check if we've exceeded max replanning for this task
+                if replanning_count >= max_replanning:
+                    log.warning(f"Exceeded maximum replanning attempts ({max_replanning}) for this task. Continuing with remaining plans.")
+                    retry_count = 0
+                    continue
+                
+                retry_count += 1
+                replanning_count += 1
+                log.debug(f"Dynamic replanning attempt {retry_count}/{max_retries} for current action (Total: {replanning_count}/{max_replanning})")
+                
+                curr_vis_objs = env.get_visible_objects().split(", ")
+                
+                # Add new objects to seen_objs without duplicates
+                for obj in curr_vis_objs:
+                    if obj and obj not in seen_objs:  # Check if obj is not empty
+                        seen_objs.append(obj)
+                
+                # Sort for consistent output
+                seen_objs.sort()
+                
+                # Update the task with current visible objects and completed plans
+                curr_task = {
+                    "task_instr": [goal_instr],
+                    "step_instr": step_instrs,
+                    "vis_objs": ", ".join(seen_objs),  # Convert back to comma-separated string
+                    "completed_plans": completed_plans,
+                    "failed_plans": failed_plans
+                }
+                
+                # Format the updated task for better readability
+                formatted_task = {
+                    "task_instr": curr_task["task_instr"][0],
+                    "step_instr": [step for sublist in curr_task["step_instr"] for step in sublist] if curr_task["step_instr"] and isinstance(curr_task["step_instr"][0], list) else curr_task["step_instr"],
+                    "vis_objs": curr_task["vis_objs"],
+                    "completed_plans": curr_task["completed_plans"]
+                }
+                
+                log.debug("Updated task for dynamic replanning:")
+                log.debug(f"  Task instruction: {formatted_task['task_instr']}")
+                if use_step_instructions:
+                    log.debug(f"  Step instructions: {formatted_task['step_instr']}")
+                else:
+                    log.debug("  Step instructions: Disabled")
+                log.debug(f"  Visible objects: {formatted_task['vis_objs']}")
+                log.debug(f"  Completed plans: {formatted_task['completed_plans']}")
+                
+                
+                # Get current frame if vision is used
+                # encoded_frames = []
+                # if vision:
+                #     curr_frame = [Image.fromarray(env.last_event.frame)]
+                #     encoded_frames.extend([self.encode_image(frame) for frame in curr_frame])
 
-                    # Generate new plans for dynamic replanning
-                    high_level_plans = self.llm_planner.get_high_level_plan(curr_task, encoded_frames=encoded_frames)
+                # Generate new plans for dynamic replanning
+                high_level_plans = self.llm_planner.get_high_level_plan(curr_task, encoded_frames=encoded_frames)
+                dynamic_plans.append(high_level_plans.copy())  # Keep track of dynamic plans generated
 
-                    # Display the dynamically generated high-level plan more prominently
-                    log.debug("=" * 50)
-                    log.debug("DYNAMICALLY GENERATED HIGH-LEVEL PLAN:")
-                    for i, plan in enumerate(high_level_plans, 1):
-                        log.debug(f"  {i}. {plan}")
-                    log.debug("=" * 50)
-                    log.debug(f"Visible objects: {seen_objs}")
+                # Display the dynamically generated high-level plan more prominently
+                log.debug("=" * 50)
+                log.debug("DYNAMICALLY GENERATED HIGH-LEVEL PLAN:")
+                for i, plan in enumerate(high_level_plans, 1):
+                    log.debug(f"  {i}. {plan}")
+                log.debug("=" * 50)
+                log.debug(f"Visible objects: {seen_objs}")
+            elif not action_ret['success']:
+                pass
             else:
                 log.debug(f"SUCCESS: '{plan}' executed successfully")
                 completed_plans.append(plan)
@@ -486,6 +501,7 @@ class AlfredEvaluator:
             'goal_instr': goal_instr,
             'initial_high_level_plans': initial_high_level_plans,
             'completed_plans': completed_plans,
+            'dynamic_plans': [", ".join(plans) for plans in dynamic_plans],
             'failed_plans': failed_plans,
             'success': success,
             'frame_history': frame_history
@@ -493,7 +509,7 @@ class AlfredEvaluator:
 
         return log_entry
                 
-    def run_evaluation(self, dry_run=False):
+    def run_evaluation(self, dry_run=False, enforce_knn_set=False):
         """Run evaluation on all tasks"""
         results = []
         save_path = self.config["out_dir"]
@@ -515,6 +531,16 @@ class AlfredEvaluator:
                 log.debug(task)
                 traj_data = load_task_json(task)
                 r_idx = task['repeat_idx']
+
+                if enforce_knn_set:
+                    goal_instr = traj_data['turk_annotations']['anns'][r_idx]['task_desc']
+                    # Check if the goal instruction is in the knn set
+                    if goal_instr not in self.knn_set["task_instr"].values:
+                        log.warning(f"Goal instruction not found in KNN set: {goal_instr}")
+                        continue
+                    else:
+                        log.debug(f"Goal instruction found in KNN set: {goal_instr}")
+
                 log.debug(f"Evaluating ({task_idx+1}/{len(self.tasks)}): {traj_data['root']}")
                 
                 result = self.evaluate_task(
@@ -619,7 +645,7 @@ class AlfredEvaluator:
                 # If we can't even create a failure result, just continue
                 log.error("Failed to create failure result entry")
 
-    def run_evaluation_multithreaded(self, dry_run=False):
+    def run_evaluation_multithreaded(self, dry_run=False, enforce_knn_set=False):
         """Run evaluation on all tasks"""
         results = []
         save_path = self.config["out_dir"]
@@ -657,7 +683,7 @@ class AlfredEvaluator:
             log.debug(yaml.dump(self.config))
             return
         
-        n_success = sum(1 for e in results if e['success'])
+        n_success = sum(1 for e in results if e != None and e['success'])
         
         log.info(f'success rate: {n_success / n * 100:.2f} % ({n_success}/{n})')
         log.info(f'elapsed: {str(datetime.timedelta(seconds=(time.time() - start_time)))}')
@@ -712,7 +738,16 @@ class AlfredEvaluator:
             else:
                 f.write("None\n")
             f.write("\n")
+
+            # Dynamic plans
+            if result_dict['dynamic_plans']:
+                f.write("Dynamic Plans Generated During Replanning:\n")
+                for i, dynamic_plan_set in enumerate(result_dict['dynamic_plans'], 1):
+                    f.write(f"Replanning Attempt {i}:\n")
+                    f.write(dynamic_plan_set + "\n")
+                f.write("\n")
             
+
             # Failed plans (only if there are any)
             if result_dict['failed_plans']:
                 f.write("Failed Plans:\n")
@@ -802,46 +837,12 @@ class AlfredEvaluator:
             log.warning(f"Error during fuzzy object matching: {str(e)}")
             return None, 0
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--config', type=str, default='config/config_alfred.yaml')
-    parser.add_argument('--dry_run', action='store_true')
-    args = parser.parse_args()
 
-    # Initialize evaluator
-    evaluator = AlfredEvaluator(args.config)
-    
-    # Run preprocess step only once on new installation
-    evaluator.preprocess_dataset()
-    
-    # Run evaluation
-    num_workers = evaluator.config.get("num_workers", 1)
-    if num_workers > 1:
-        results = evaluator.run_evaluation_multithreaded(dry_run=args.dry_run)
-    else:
-        results = evaluator.run_evaluation(dry_run=args.dry_run)
-
-    # Save results if configured
-    if evaluator.config.get("save_results", False):
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        result_file = os.path.join(evaluator.config["out_dir"], f"results_{timestamp}.json")
-        
-        # Create JSON-serializable version of results (without frame_history)
-        json_results = []
-        for result in results:
-            # Create a copy without frame_history
-            json_result = {k: v for k, v in result.items() if k != 'frame_history'}
-            json_results.append(json_result)
-            
-        with open(result_file, 'w') as f:
-            json.dump(json_results, f, indent=2)
-        log.info(f"Results saved to {result_file}")
-
-def run_with_config(config_path, dry_run=False):
+def run_with_config(config_path, dry_run=False, enforce_knn_set=False):
     """Helper function to run evaluation with a specific config file"""
     evaluator = AlfredEvaluator(config_path)
     evaluator.preprocess_dataset()
-    results = evaluator.run_evaluation(dry_run=dry_run)
+    results = evaluator.run_evaluation(dry_run=dry_run, enforce_knn_set=enforce_knn_set)
     return results
 
 def run_multiple_configs(config_paths, dry_run=False):
@@ -911,8 +912,186 @@ def run_evaluation_helper(task, task_idx, save_path):
             # If we can't even create a failure result, just continue
             log.error("Failed to create failure result entry")
 
+def remove_repeated_steps(completed_plans):
+    """Remove any repeated steps in completed plans"""
+    unique_plans = [completed_plans[0]]
+    prev_step = completed_plans[0]
+    for plan in completed_plans[1:]:
+        if plan != prev_step and not (plan.startswith("Navigation") and prev_step.startswith("Navigation")):
+            unique_plans.append(plan)
+            prev_step = plan
+    return unique_plans
+
+def convert_plan_to_knn_format(plan):
+    # Split plan into words and cast to tuple
+    plan = [tuple(p.split(" ")) for p in plan]
+    # Turn the whole tuple into a single string
+    plan = [str(p) for p in plan]
+    # Make each step a single item list
+    plan = [[p] for p in plan]
+    return plan
+
+
+
+def update_knn_set(config, results_path, prev_results_path, knn_set_path, knn_set_save_path):
+    knn_set = pd.read_pickle(knn_set_path)
+
+    result_files = os.listdir(results_path)
+    json_files = [f for f in result_files if f.endswith('.json')]
+    if len(json_files) > 1:
+        log.warning(f"Multiple JSON files found in results path: {json_files}. Using the first one: {json_files[0]}")
+    result_file = os.path.join(results_path, json_files[0])
+    with open(result_file, 'r') as f:
+        results = json.load(f)
+        
+    prev_result_files = os.listdir(prev_results_path)
+    prev_json_files = [f for f in prev_result_files if f.endswith('.json')]
+    if len(prev_json_files) > 1:
+        log.warning(f"Multiple JSON files found in previous results path: {prev_json_files}. Using the first one: {prev_json_files[0]}")
+    prev_result_file = os.path.join(prev_results_path, prev_json_files[0])
+    with open(prev_result_file, 'r') as f:
+        prev_results = json.load(f)
+
+    for i in range(len(results)):
+        result = results[i]
+        prev_result = prev_results[i]
+        
+        if config["criteria"] == "task_success":
+            if not result["success"]:
+                continue
+        elif config["criteria"] == "subgoal_success_rate":
+            result_completed_subgoals = result["completed_plans"] if "completed_plans" in result else []
+            if result_completed_subgoals:
+                result_completed_subgoals = remove_repeated_steps(result_completed_subgoals)
+            prev_completed_subgoals = prev_result["completed_plans"] if "completed_plans" in prev_result else []
+            if prev_completed_subgoals:
+                prev_completed_subgoals = remove_repeated_steps(prev_completed_subgoals)
+            if len(result_completed_subgoals) < len(prev_completed_subgoals):
+                continue
+        else:
+            raise ValueError(f"Unsupported criteria: {config['criteria']}")
+        
+        completed_plans = result["completed_plans"] if "completed_plans" in result else []
+        if not completed_plans:
+            continue
+        else:
+            remove_repeated_steps(completed_plans)
+        completed_plans_knn = convert_plan_to_knn_format(completed_plans)
+
+        goal_instr = result["goal_instr"]
+        knn_set_task_instrs = knn_set["task_instr"].tolist()
+        task_index = knn_set_task_instrs.index(goal_instr)
+
+        # Set gold_traj in the knn set to the completed plans from this result
+        knn_set.at[task_index, 'gold_traj'] = completed_plans_knn
+    knn_set.to_pickle(knn_set_save_path)
+    log.info(f"KNN set updated and saved to {knn_set_save_path}")
+
+
+
+
+
+def run_prompt_iteration():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, default='config/config_alfred.yaml')
+    parser.add_argument('--dry_run', action='store_true')
+    parser.add_argument('--enforce_knn_set', action='store_true')
+    args = parser.parse_args()
+
+    with open(args.config) as reader:
+        config = yaml.safe_load(reader)
+
+    # Make a directory for KNN sets if it doesn't exist
+    os.makedirs(os.path.join(config["out_dir"],"knn_sets"), exist_ok=True)
+    # Make a directory for results if it doesn't exist
+    os.makedirs(os.path.join(config["out_dir"],"results"), exist_ok=True)
+
+    prompt_iterations = config["iterations"]
+
+    # Create a new config for this iteration with updated KNN set path
+    iter_config = config.copy()
+    prev_results_path = config["base_results_path"]
+    knn_set_path = config["llm_planner"]["knn_dataset_path"]
+    knn_set_save_path = os.path.join(config["out_dir"],"knn_sets", "knn_set_initial.pkl")
+    update_knn_set(config, prev_results_path, prev_results_path, knn_set_path, knn_set_save_path)
+    iter_config["llm_planner"]["knn_dataset_path"] = knn_set_save_path
+    iter_config["out_dir"] = os.path.join(config["out_dir"], f"iteration_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}") 
+    os.makedirs(iter_config["out_dir"], exist_ok=True)
+    iter_config_path = os.path.join(iter_config["out_dir"], "config.yaml")
+    with open(iter_config_path, 'w') as f:
+        yaml.dump(iter_config, f)
+
+    for i in range(prompt_iterations):
+        log.info(f"Starting prompt iteration {i+1}/{prompt_iterations}")
+        results = run_with_config(iter_config_path, dry_run=args.dry_run, enforce_knn_set=True)
+        # Save results for this iteration
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        result_file = os.path.join(iter_config["out_dir"], f"results_{timestamp}.json")
+        
+        # Create JSON-serializable version of results (without frame_history)
+        json_results = []
+        for result in results:
+            # Create a copy without frame_history
+            json_result = {k: v for k, v in result.items() if k != 'frame_history'}
+            json_results.append(json_result)
+            
+        with open(result_file, 'w') as f:
+            json.dump(json_results, f, indent=2)
+        log.info(f"Results saved to {result_file}")
+
+        # Update KNN set for the next iteration
+        knn_set_save_path = os.path.join(config["out_dir"], "knn_sets", f"knn_set_iteration_{i+1}.pkl")
+        update_knn_set(config, iter_config["out_dir"], prev_results_path, knn_set_path, knn_set_save_path)
+
+        prev_results_path = iter_config["out_dir"]
+
+        # Update config for the next iteration
+        iter_config["llm_planner"]["knn_dataset_path"] = knn_set_save_path
+        iter_config["out_dir"] = os.path.join(config["out_dir"], f"iteration_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        os.makedirs(iter_config["out_dir"], exist_ok=True)
+        iter_config_path = os.path.join(iter_config["out_dir"], "config.yaml")
+        with open(iter_config_path, 'w') as f:
+            yaml.dump(iter_config, f)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, default='config/config_alfred.yaml')
+    parser.add_argument('--dry_run', action='store_true')
+    parser.add_argument('--enforce_knn_set', action='store_true')
+    args = parser.parse_args()
+
+    # Initialize evaluator
+    evaluator = AlfredEvaluator(args.config)
+    
+    # Run preprocess step only once on new installation
+    evaluator.preprocess_dataset()
+    
+    # Run evaluation
+    num_workers = evaluator.config.get("num_workers", 1)
+    if num_workers > 1:
+        results = evaluator.run_evaluation_multithreaded(dry_run=args.dry_run, enforce_knn_set=args.enforce_knn_set)
+    else:
+        results = evaluator.run_evaluation(dry_run=args.dry_run, enforce_knn_set=args.enforce_knn_set)
+
+    # Save results if configured
+    if evaluator.config.get("save_results", False):
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        result_file = os.path.join(evaluator.config["out_dir"], f"results_{timestamp}.json")
+        
+        # Create JSON-serializable version of results (without frame_history)
+        json_results = []
+        for result in results:
+            # Create a copy without frame_history
+            json_result = {k: v for k, v in result.items() if k != 'frame_history'}
+            json_results.append(json_result)
+            
+        with open(result_file, 'w') as f:
+            json.dump(json_results, f, indent=2)
+        log.info(f"Results saved to {result_file}")
+
 if __name__ == '__main__':
     main()
+    # run_prompt_iteration()
     # config_files = [
     #     "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/config/config_alfred_Qwen3-VL-30B.yaml",
     #     "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/config/config_alfred_Qwen3-VL-30B_vision.yaml",
