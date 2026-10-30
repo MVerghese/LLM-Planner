@@ -1,0 +1,42 @@
+{
+  "trial": "trial_T20190909_102254_616532",
+  "scene": "FloorPlan21",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "To put a sponge in a pan and move the pan to the counter. ",
+  "initial_high_level_plans": [
+    "Navigation dishsponge",
+    "Navigation dishsponge",
+    "Navigation dishsponge",
+    "PickupObject dishsponge",
+    "Navigation pan",
+    "Navigation pan",
+    "Navigation pan",
+    "PutObject dishsponge pan",
+    "Navigation pan",
+    "PickupObject pan",
+    "Navigation countertop",
+    "Navigation countertop",
+    "Navigation countertop",
+    "PutObject pan countertop"
+  ],
+  "completed_plans": [
+    "Navigation dishsponge",
+    "Navigation dishsponge",
+    "Navigation dishsponge",
+    "PickupObject dishsponge",
+    "Navigation pan",
+    "Navigation pan",
+    "Navigation pan",
+    "PutObject dishsponge pan",
+    "Navigation pan",
+    "PickupObject pan",
+    "Navigation countertop",
+    "Navigation countertop",
+    "Navigation countertop",
+    "PutObject pan countertop"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

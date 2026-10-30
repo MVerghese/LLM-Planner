@@ -1,0 +1,90 @@
+{
+  "trial": "trial_T20190909_151235_229025",
+  "scene": "FloorPlan301",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "Grab a watch and turn a lamp on.",
+  "initial_high_level_plans": [
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation watch",
+    "PickupObject watch",
+    "Navigation drawer",
+    "CloseObject drawer",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp"
+  ],
+  "completed_plans": [
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation watch",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation watch",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation watch",
+    "Navigation drawer",
+    "CloseObject drawer",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp"
+  ],
+  "dynamic_plans": [
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation watch, PickupObject watch, Navigation drawer, CloseObject drawer, Navigation desklamp, Navigation desklamp, Navigation desklamp, ToggleObjectOn desklamp",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation watch, PickupObject watch, Navigation drawer, CloseObject drawer, Navigation desklamp, Navigation desklamp, Navigation desklamp, ToggleObjectOn desklamp",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation watch, PickupObject watch, Navigation drawer, CloseObject drawer, Navigation desklamp, Navigation desklamp, Navigation desklamp, ToggleObjectOn desklamp",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation watch, PickupObject watch, Navigation drawer, CloseObject drawer, Navigation desklamp, Navigation desklamp, Navigation desklamp, ToggleObjectOn desklamp",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation watch, PickupObject watch, Navigation drawer, CloseObject drawer, Navigation desklamp, Navigation desklamp, Navigation desklamp, ToggleObjectOn desklamp"
+  ],
+  "failed_plans": [
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject watch",
+      "error": "Watch is not visible because it is in Drawer"
+    },
+    {
+      "plan": "PickupObject watch",
+      "error": "Watch is not visible because it is in Drawer"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject watch",
+      "error": "Watch is not visible because it is in Drawer"
+    }
+  ],
+  "success": false
+}

@@ -1,0 +1,4 @@
+# Affordances for PlanningEnv discrete actions (comma-separated or YAML lists).
+Openable: Drawer
+Pickupable: Apple, Banana, Cherry, Purple Grape, Green Grape, Lemon, Lime, Orange, Radish, Carrot
+Receptacle: Drawer

@@ -1,17 +1,18 @@
 name: alfred
 
-out_dir: "./Tree_Search_Transition_Prob/"
+out_dir: "./results/Entropy_Reduction_Tree_Search_Good_Prompts_valid_seen/"
 debug: False # Used to debug a single task. Modify the line mentioned by NOTE in src/run_eval.py
 save_results: True  # Enable saving results for debugging
-num_workers: 1
+num_workers: 4
 
 llm_planner:
   engine: "Qwen/Qwen3-VL-8B-Instruct"  # Specify the LLM engine to use
-  vision: False
+  is_thor: True
+  vision: True
   dynamic: True
   max_retries: 1  # Maximum number of retries per action
   max_replanning: 5  # Maximum number of dynamic replanning attempts per task
-  knn_dataset_path: "src/knn_set.pkl"
+  knn_dataset_path: "src/knn_set_updated.pkl"
   emb_model_name: "paraphrase-MiniLM-L6-v2"
   num_in_context_examples: 9
   use_mmr: False  # Whether to use Maximal Marginal Relevance for selecting in-context examples
@@ -19,10 +20,12 @@ llm_planner:
   use_step_instructions: False  # Set to False to disable step instructions
   obj_sim_threshold: 0.8  # Threshold for fuzzy object matching (0.0 to 1.0)
   debug: True
-  planner: "tree_search"
-  mode: "transition_prob"
-  confidence_threshold: 0.90
+  planner: "entropy_reduction"
+  mode: "action_prob"
+  confidence_threshold: 0.9
   max_question_iterations: 5
+  info_gain_metric: "entropy"
+  valid_objects_set: "config/alfred_objects.yaml"
 
 
 alfred:
@@ -34,5 +37,5 @@ alfred:
     max_steps: 1000
     pp_folder: pp
   x_display: '1'
-  eval_set: 'valid_unseen'  # valid_seen, valid_unseen
+  eval_set: 'valid_seen'  # valid_seen, valid_unseen
   splits: alfred/data/splits/oct21.json

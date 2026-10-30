@@ -1,0 +1,32 @@
+{
+  "goal_instr": "Put Away Fruit in the Drawer",
+  "initial_high_level_plans": [
+    "OpenObject drawer",
+    "PickupObject banana",
+    "PutObject banana drawer",
+    "PickupObject lime",
+    "PutObject lime drawer",
+    "PickupObject lemon",
+    "PutObject lemon drawer",
+    "PickupObject grapes",
+    "PutObject grapes drawer",
+    "CloseObject drawer"
+  ],
+  "completed_plans": [
+    "OpenObject drawer",
+    "PickupObject banana",
+    "PutObject banana drawer"
+  ],
+  "dynamic_plans": [
+    "PutObject banana drawer"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PutObject banana drawer",
+      "error": ""
+    }
+  ],
+  "success": false,
+  "trial": "put_away_fruit_in_the_drawer",
+  "repeat_idx": "20260605T173513_244"
+}

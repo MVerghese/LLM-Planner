@@ -1,0 +1,143 @@
+{
+  "trial": "trial_T20190909_015827_115672",
+  "scene": "FloorPlan1",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Move the pot with a potato slice from the freezer to the sink.",
+  "initial_high_level_plans": [
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "PickupObject butterknife",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "SliceObject potato",
+    "Navigation countertop",
+    "PutObject butterknife countertop",
+    "Navigation potato",
+    "PickupObject potato",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation pot",
+    "PutObject potato pot",
+    "Navigation pot",
+    "PickupObject pot",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation sink",
+    "Navigation sink",
+    "Navigation sink",
+    "PutObject pot sink"
+  ],
+  "completed_plans": [
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "PickupObject butterknife",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "SliceObject potato",
+    "Navigation countertop",
+    "PutObject butterknife countertop",
+    "Navigation potato",
+    "PickupObject potato",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation pot",
+    "PutObject potato pot",
+    "Navigation pot",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "PickupObject butterknife",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation countertop",
+    "PutObject butterknife countertop",
+    "Navigation potato",
+    "PickupObject potato",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation pot",
+    "PutObject potato pot",
+    "Navigation pot",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation sink",
+    "Navigation sink",
+    "Navigation sink"
+  ],
+  "dynamic_plans": [
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation potato, Navigation potato, Navigation potato, SliceObject potato, Navigation countertop, PutObject butterknife countertop, Navigation potato, PickupObject potato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation pot, PutObject potato pot, Navigation pot, PickupObject pot, Navigation fridge, CloseObject fridge, Navigation sink, Navigation sink, Navigation sink, PutObject pot sink",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation potato, Navigation potato, Navigation potato, SliceObject potato, Navigation countertop, PutObject butterknife countertop, Navigation potato, PickupObject potato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation pot, PutObject potato pot, Navigation pot, PickupObject pot, Navigation fridge, CloseObject fridge, Navigation sink, Navigation sink, Navigation sink, PutObject pot sink",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation potato, Navigation potato, Navigation potato, SliceObject potato, Navigation countertop, PutObject butterknife countertop, Navigation potato, PickupObject potato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation pot, PutObject potato pot, Navigation pot, PickupObject pot, Navigation fridge, CloseObject fridge, Navigation sink, Navigation sink, Navigation sink, PutObject pot sink",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation potato, Navigation potato, Navigation potato, SliceObject potato, Navigation countertop, PutObject butterknife countertop, Navigation potato, PickupObject potato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation pot, PutObject potato pot, Navigation pot, PickupObject pot, Navigation fridge, CloseObject fridge, Navigation sink, Navigation sink, Navigation sink, PutObject pot sink",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation potato, Navigation potato, Navigation potato, SliceObject potato, Navigation countertop, PutObject butterknife countertop, Navigation potato, PickupObject potato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation pot, PutObject potato pot, Navigation pot, PickupObject pot, Navigation fridge, CloseObject fridge, Navigation sink, Navigation sink, Navigation sink, PutObject pot sink"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PickupObject pot",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "SliceObject potato",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "SliceObject potato",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "OpenObject fridge",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject pot",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "PutObject pot sink",
+      "error": "Robot is not holding any object"
+    }
+  ],
+  "success": false
+}

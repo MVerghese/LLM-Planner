@@ -1,0 +1,2 @@
+# Object names for planning / prompts (comma-separated or list under OBJECTS).
+OBJECTS: "apple, Banana, Cherry, Purple Grape, Green Grape, Lemon, Lime, Orange, Radish, Carrot, Drawer"

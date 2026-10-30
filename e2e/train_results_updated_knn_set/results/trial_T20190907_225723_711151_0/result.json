@@ -1,0 +1,30 @@
+{
+  "trial": "trial_T20190907_225723_711151",
+  "scene": "FloorPlan28",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Move a spoon and cup from a table to the counter.",
+  "initial_high_level_plans": [
+    "Navigation cup",
+    "Navigation cup",
+    "Navigation cup",
+    "PickupObject cup",
+    "Navigation countertop",
+    "Navigation countertop",
+    "Navigation countertop",
+    "PutObject cup countertop"
+  ],
+  "completed_plans": [
+    "Navigation cup",
+    "Navigation cup",
+    "Navigation cup",
+    "PickupObject cup",
+    "Navigation countertop",
+    "Navigation countertop",
+    "Navigation countertop",
+    "PutObject cup countertop"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

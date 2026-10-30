@@ -1,0 +1,88 @@
+{
+  "trial": "trial_T20190908_190608_801964",
+  "scene": "FloorPlan307",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "examine a pillow with a lamp",
+  "initial_high_level_plans": [
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "PickupObject pillow",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "completed_plans": [
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "PickupObject pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow"
+  ],
+  "dynamic_plans": [
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp"
+  ],
+  "failed_plans": [
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "ToggleObjectOn floorlamp",
+      "error": "Cannot find Floorlamp to turn on"
+    }
+  ],
+  "success": false
+}

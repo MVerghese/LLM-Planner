@@ -3,7 +3,7 @@ import numpy as np
 from typing import List
 import requests
 import json
-from utils import encode_image, load_images
+from e2e_utils import encode_image, load_images
 
 class VLLM_Interface:
 	def __init__(self, engine, client=None):
@@ -15,8 +15,8 @@ class VLLM_Interface:
 			)
 		else:
 			self.client = client
-		
-	
+		self.llm_call_count = 0
+
 	def get_tokenization(self, prompt):
 		api_url = "http://localhost:8000/tokenize"
 		headers = {
@@ -34,9 +34,11 @@ class VLLM_Interface:
 		else:
 			raise Exception(f"Tokenization API request failed with status code {response.status_code}: {response.text}")
 
-
+	def get_llm_call_count(self):
+		return self.llm_call_count
 	
 	def generate(self, prompt, max_tokens=300, temperature=0.0, images=None, n = 1, return_logprobs=False, num_logprobs=5, logit_bias = {}, add_generation_prompt = True, continue_final_message = False):
+		self.llm_call_count += 1
 		if temperature == 0.0 and n > 1:
 			print("Warning: Requesting multiple outputs with temperature set to 0.0 will result in identical outputs. Setting n to 1 but this is probably not what you want")
 			n = 1
@@ -133,6 +135,7 @@ class VLLM_Interface:
 			return generated
 
 	def get_token_logprobs(self, prompt, tokens, images=None, requested_logprobs=10):
+		self.llm_call_count += 1
 		if 'gpt-4o' in self.engine:
 			message_content = []
 			
@@ -235,25 +238,36 @@ def main():
 	engine = 'Qwen/Qwen3-VL-8B-Instruct'
 	vllm_interface = VLLM_Interface(engine)
 
-	# image_path = "/home/mverghese/Downloads/L_Big.jpg"
-	# im = load_images([image_path])[0]
-	# encoded_image = encode_image(im)
-	# prompt = "Here is a description of a 3D printed part: **L-Shaped Geometry with a Vertical Post:** The part has a distinct L-shape, with a tall vertical post and a shorter horizontal base.\n\n2.  **Small, Thin Wing Feature on Top:** The most notable feature is the small, thin, wing-like structure extending from the top of the vertical post. \n    *   **Overhang:** This wing is a significant overhang (likely >45 degrees relative to the print bed).\n  I have an issue with the wing part curling. What print parameter should I change to fix this?"
+	image_path = "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/frame_1.png"
+	im = load_images([image_path])[0]
+	encoded_image = encode_image(im)
+
+	
+	prompt = (
+            f"This image shows the scene after the robot attempted this action: Open Drawer. "
+            "Based only on what you see, was that action successfully completed? "
+            "Answer with exactly one word: Yes or No."
+        )
+	prompt = "Is the drawer open? Answer with exactly one word: Yes or No."
+	probs = vllm_interface.yes_no_probabilities(prompt, images=[encoded_image])
+	print(probs)
 
 
-	# out = vllm_interface.generate(prompt, images=[encoded_image], temperature=0.0)
-	# print(out)
+	prompt = "Whats the state of the drawer?"
+
+	out = vllm_interface.generate(prompt, images=[encoded_image], temperature=0.0)
+	print(out)
 
 	# prompt = "There is a cup in the cabinet and the cabinet is closed. If I tried to pickup the cup, would I succeed?"
 	# prompt = "There is a cup in the cabinet. I don't know if the cabinet is open or closed. If I tried to pickup the cup, would I succeed?"
 	# tokenize = vllm_interface.get_tokenization(prompt)
 	# print(tokenize)
 	# # logprobs = vllm_interface.get_token_logprobs(prompt, tokens=["Yes","No"], requested_logprobs=20)
-	prompt_file = "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/prompt.txt"
-	with open(prompt_file, 'r') as f:
-		prompt = f.read()
-	response = vllm_interface.generate(prompt, n=1, temperature=0.0, add_generation_prompt=True, continue_final_message=False)
-	print(response)
+	# prompt_file = "/home/mverghese/LLM_Grounding/LLM-Planner/e2e/prompt.txt"
+	# with open(prompt_file, 'r') as f:
+	# 	prompt = f.read()
+	# response = vllm_interface.generate(prompt, n=1, temperature=0.0, add_generation_prompt=True, continue_final_message=False)
+	# print(response)
 	# import pdb; pdb.set_trace()
 	# # prompt = "There is a cup in the cabinet and the cabinet is open. Can you see the cup?"
 	# probs = vllm_interface.yes_no_probabilities(prompt)

@@ -1,0 +1,109 @@
+{
+  "trial": "trial_T20190908_220750_874409",
+  "scene": "FloorPlan227",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Place a box with a bottle on a table.",
+  "initial_high_level_plans": [
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation vase",
+    "PickupObject vase",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation box",
+    "Navigation box",
+    "Navigation box",
+    "PutObject vase box",
+    "Navigation box",
+    "PickupObject box",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject box diningtable"
+  ],
+  "completed_plans": [
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation vase",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation vase",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation vase",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation vase",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation vase",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation box",
+    "Navigation box",
+    "Navigation box",
+    "Navigation box",
+    "PickupObject box",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject box diningtable"
+  ],
+  "dynamic_plans": [
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation vase, PickupObject vase, Navigation cabinet, CloseObject cabinet, Navigation box, Navigation box, Navigation box, PutObject vase box, Navigation box, PickupObject box, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject box diningtable",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation vase, PickupObject vase, Navigation cabinet, CloseObject cabinet, Navigation box, Navigation box, Navigation box, PutObject vase box, Navigation box, PickupObject box, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject box diningtable",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation vase, PickupObject vase, Navigation cabinet, CloseObject cabinet, Navigation box, Navigation box, Navigation box, PutObject vase box, Navigation box, PickupObject box, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject box diningtable",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation vase, PickupObject vase, Navigation cabinet, CloseObject cabinet, Navigation box, Navigation box, Navigation box, PutObject vase box, Navigation box, PickupObject box, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject box diningtable",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation vase, PickupObject vase, Navigation cabinet, CloseObject cabinet, Navigation box, Navigation box, Navigation box, PutObject vase box, Navigation box, PickupObject box, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject box diningtable"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PickupObject vase",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "PickupObject vase",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject vase",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "PickupObject vase",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject vase",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "PutObject vase box",
+      "error": "Robot is not holding any object"
+    }
+  ],
+  "success": false
+}

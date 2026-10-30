@@ -17,8 +17,9 @@ from openai import OpenAI
 import logging
 from typing import Union
 from VLLM_Interface import VLLM_Interface
+from Inference_Interface import InferenceInterface, is_closed_source_engine
 import numpy as np
-from utils import encode_image, load_images
+from e2e_utils import encode_image, load_images
 import os
 import json
 import yaml
@@ -100,6 +101,44 @@ class GT_Planner:
 
       
 class LLM_Planner():
+    # Comma-separated list of valid ALFRED object names, loaded from YAML in __init__.
+    VALID_OBJECTS: str = ""
+
+    def _load_valid_objects_set(self) -> None:
+        """
+        Load VALID_OBJECTS (as a comma-separated string) from the YAML file
+        specified by `self.config["valid_objects_set"]`.
+        """
+        # Load once per process (shared across planner instances/subclasses).
+        if type(self).VALID_OBJECTS:
+            return
+
+        objects_yaml_path = self.config.get("valid_objects_set", "config/alfred_objects.yaml")
+        if not os.path.isabs(objects_yaml_path):
+            # Resolve relative paths against the `e2e/` directory (this file is in `e2e/src/`).
+            e2e_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            objects_yaml_path = os.path.join(e2e_root, objects_yaml_path)
+        with open(objects_yaml_path, "r", encoding="utf-8") as f:
+            obj_cfg = yaml.safe_load(f)
+
+        valid_objects = None
+        if isinstance(obj_cfg, dict):
+            # Preferred key name matches the YAML filename request.
+            valid_objects = obj_cfg.get(
+                "OBJECTS",
+                obj_cfg.get("VALID_OBJECTS", obj_cfg.get("valid_objects")),
+            )
+        elif isinstance(obj_cfg, str):
+            valid_objects = obj_cfg
+
+        if isinstance(valid_objects, list):
+            type(self).VALID_OBJECTS = ", ".join(valid_objects)
+        else:
+            type(self).VALID_OBJECTS = str(valid_objects) if valid_objects is not None else ""
+
+        if not type(self).VALID_OBJECTS:
+            raise ValueError(f"VALID_OBJECTS is empty after loading: {objects_yaml_path}")
+
     def __init__(self, llm_config: dict, client: OpenAI, debug: bool=False, logger: Union[logging.Logger, None] = None):
         print(f"LLM Planner Got logger: {logger}")
         self.config = llm_config
@@ -110,8 +149,13 @@ class LLM_Planner():
         self.llm_client = client
         self.engine = self.config["engine"]
         self.logger = logger
-        self.llm = VLLM_Interface(client=self.llm_client, engine=self.engine)
+        self.is_closed_source_model = is_closed_source_engine(self.engine)
+        self.llm = InferenceInterface(engine=self.engine, client=self.llm_client)
         self.num_task_calls = 0
+        self._load_valid_objects_set()
+
+    def get_llm_call_count(self):
+        return self.llm.get_llm_call_count()
 
 
         
@@ -203,32 +247,12 @@ class LLM_Planner():
 
     def generate_prompt(self, curr_task, k, removeNav=False, naturalFormat=False, includeLow=False, dynamic=True, diverse=False, prev_plans = []):
         log.debug(f"Generating prompt with {k} examples, includeLow={includeLow}, dynamic={dynamic}")
-        # Define the valid objects list
-        VALID_OBJECTS = [
-            'AlarmClock', 'Apple', 'ArmChair', 'BaseballBat', 'BasketBall', 'Bathtub',
-            'BathtubBasin', 'Bed', 'Blinds', 'Book', 'Boots', 'Bowl', 'Box', 'Bread',
-            'ButterKnife', 'Cabinet', 'Candle', 'Cart', 'CD', 'CellPhone', 'Chair',
-            'Cloth', 'CoffeeMachine', 'CounterTop', 'CreditCard', 'Cup', 'Curtains',
-            'Desk', 'DeskLamp', 'DishSponge', 'Drawer', 'Dresser', 'Egg', 'FloorLamp',
-            'Footstool', 'Fork', 'Fridge', 'GarbageCan', 'Glassbottle', 'HandTowel',
-            'HandTowelHolder', 'HousePlant', 'Kettle', 'KeyChain', 'Knife', 'Ladle',
-            'Laptop', 'LaundryHamper', 'LaundryHamperLid', 'Lettuce', 'LightSwitch',
-            'Microwave', 'Mirror', 'Mug', 'Newspaper', 'Ottoman', 'Painting', 'Pan',
-            'PaperTowel', 'PaperTowelRoll', 'Pen', 'Pencil', 'PepperShaker', 'Pillow',
-            'Plate', 'Plunger', 'Poster', 'Pot', 'Potato', 'RemoteControl', 'Safe',
-            'SaltShaker', 'ScrubBrush', 'Shelf', 'ShowerDoor', 'ShowerGlass', 'Sink',
-            'SinkBasin', 'SoapBar', 'SoapBottle', 'Sofa', 'Spatula', 'Spoon', 'SprayBottle',
-            'Statue', 'StoveBurner', 'StoveKnob', 'DiningTable', 'CoffeeTable', 'SideTable',
-            'TeddyBear', 'Television', 'TennisRacket', 'TissueBox', 'Toaster', 'Toilet',
-            'ToiletPaper', 'ToiletPaperHanger', 'ToiletPaperRoll', 'Tomato', 'Towel',
-            'TowelHolder', 'TVStand', 'Vase', 'Watch', 'WateringCan', 'Window', 'WineBottle'
-        ]
-        
-        # Format the valid objects list for the prompt
-        valid_objects_str = ", ".join(VALID_OBJECTS)
+        valid_objects_str = self.VALID_OBJECTS
         
         #header
-        prompt = "Create a high-level plan for completing a household task using the allowed actions. Follow the exact output format described in the examples. Only output the next steps of the plan. Always try to navigate to the object before interacting with it. If an object is on the CounterTop, navigate to the object itself rather than the CounterTop."
+        prompt = "Create a high-level plan for completing a household task using the allowed actions. Follow the exact output format described in the examples. Only output the next steps of the plan."
+        if self.config.get("is_thor", False):
+            prompt += " Always try to navigate to the object before interacting with it. If an object is on the CounterTop, navigate to the object itself rather than the CounterTop."
 
         if naturalFormat:
             prompt += f"\n\n\nAllowed actions: {', '.join(ACT_TO_STR.values())}" 
@@ -487,37 +511,19 @@ class Tree_Search_LLM_Planner(LLM_Planner):
         print(f"Tree Search Got logger: {logger}")
         super().__init__(llm_config, client, debug, logger)
         self.mode = self.config.get("mode", "action_prob")
+        self.common_locations = ["Fridge", "Microwave"] # Common locations to look for an object when its not visible
 
-    def generate_action_probs_prompt(self, curr_task, k, plan_steps, plan_options, removeNav=False, naturalFormat=False, includeLow=False, dynamic=True, additional_info=[]):
+    def generate_action_probs_prompt(self, curr_task, k, plan_steps, plan_options, removeNav=False, naturalFormat=False, includeLow=False, dynamic=True, additional_info=[], think=False, thoughts=""):
         log.debug(f"Generating prompt with {k} examples, includeLow={includeLow}, dynamic={dynamic}")
-        # Define the valid objects list
-        VALID_OBJECTS = [
-            'AlarmClock', 'Apple', 'ArmChair', 'BaseballBat', 'BasketBall', 'Bathtub',
-            'BathtubBasin', 'Bed', 'Blinds', 'Book', 'Boots', 'Bowl', 'Box', 'Bread',
-            'ButterKnife', 'Cabinet', 'Candle', 'Cart', 'CD', 'CellPhone', 'Chair',
-            'Cloth', 'CoffeeMachine', 'CounterTop', 'CreditCard', 'Cup', 'Curtains',
-            'Desk', 'DeskLamp', 'DishSponge', 'Drawer', 'Dresser', 'Egg', 'FloorLamp',
-            'Footstool', 'Fork', 'Fridge', 'GarbageCan', 'Glassbottle', 'HandTowel',
-            'HandTowelHolder', 'HousePlant', 'Kettle', 'KeyChain', 'Knife', 'Ladle',
-            'Laptop', 'LaundryHamper', 'LaundryHamperLid', 'Lettuce', 'LightSwitch',
-            'Microwave', 'Mirror', 'Mug', 'Newspaper', 'Ottoman', 'Painting', 'Pan',
-            'PaperTowel', 'PaperTowelRoll', 'Pen', 'Pencil', 'PepperShaker', 'Pillow',
-            'Plate', 'Plunger', 'Poster', 'Pot', 'Potato', 'RemoteControl', 'Safe',
-            'SaltShaker', 'ScrubBrush', 'Shelf', 'ShowerDoor', 'ShowerGlass', 'Sink',
-            'SinkBasin', 'SoapBar', 'SoapBottle', 'Sofa', 'Spatula', 'Spoon', 'SprayBottle',
-            'Statue', 'StoveBurner', 'StoveKnob', 'DiningTable', 'CoffeeTable', 'SideTable',
-            'TeddyBear', 'Television', 'TennisRacket', 'TissueBox', 'Toaster', 'Toilet',
-            'ToiletPaper', 'ToiletPaperHanger', 'ToiletPaperRoll', 'Tomato', 'Towel',
-            'TowelHolder', 'TVStand', 'Vase', 'Watch', 'WateringCan', 'Window', 'WineBottle'
-        ]
         LETTERS = ['A', 'B', 'C', 'D', 'E']
         
-        # Format the valid objects list for the prompt
-        valid_objects_str = ", ".join(VALID_OBJECTS)
+        valid_objects_str = self.VALID_OBJECTS
         
         #header
-        prompt = "Create a high-level plan for completing a household task using the allowed actions. Select the next best action from the provided options. Always try to navigate to the object before interacting with it. If an object is on the CounterTop, navigate to the object itself rather than the CounterTop."
-        
+        prompt = "Create a high-level plan for completing a household task using the allowed actions. Select the next best action from the provided options."
+        if self.config.get("is_thor", False):
+            prompt += " Always try to navigate to the object before interacting with it. If an object is on the CounterTop, navigate to the object itself rather than the CounterTop."
+
         if naturalFormat:
             prompt += f"\n\n\nAllowed actions: {', '.join(ACT_TO_STR.values())}" 
         else:
@@ -671,7 +677,13 @@ class Tree_Search_LLM_Planner(LLM_Planner):
         prompt += "\nOptions:\n" + "\n".join([f"{LETTERS[i]}. {option}" for i, option in enumerate(plan_options)])
         if additional_info:
             prompt += "\n" + "\n".join(additional_info)
-        prompt += "\nAnswer:"
+        if think:
+            prompt += "\n\nSpend some time thinking about which option is the best one. Don't answer immediately. \n"
+            prompt += "\n\nThoughts:\n"
+        else:
+            if thoughts:
+                prompt += "\n\nThoughts:\n" + thoughts
+            prompt += "\nAnswer:"
             
         curr_task["Prompts"] = prompt
         
@@ -684,38 +696,19 @@ class Tree_Search_LLM_Planner(LLM_Planner):
     
     def generate_transition_probs_prompt(self, curr_task, k, plan_steps, future_plans, removeNav=False, naturalFormat=False, includeLow=False, dynamic=True, additional_info=[]):
         log.debug(f"Generating prompt with {k} examples, includeLow={includeLow}, dynamic={dynamic}")
-        # Define the valid objects list
-        VALID_OBJECTS = [
-            'AlarmClock', 'Apple', 'ArmChair', 'BaseballBat', 'BasketBall', 'Bathtub',
-            'BathtubBasin', 'Bed', 'Blinds', 'Book', 'Boots', 'Bowl', 'Box', 'Bread',
-            'ButterKnife', 'Cabinet', 'Candle', 'Cart', 'CD', 'CellPhone', 'Chair',
-            'Cloth', 'CoffeeMachine', 'CounterTop', 'CreditCard', 'Cup', 'Curtains',
-            'Desk', 'DeskLamp', 'DishSponge', 'Drawer', 'Dresser', 'Egg', 'FloorLamp',
-            'Footstool', 'Fork', 'Fridge', 'GarbageCan', 'Glassbottle', 'HandTowel',
-            'HandTowelHolder', 'HousePlant', 'Kettle', 'KeyChain', 'Knife', 'Ladle',
-            'Laptop', 'LaundryHamper', 'LaundryHamperLid', 'Lettuce', 'LightSwitch',
-            'Microwave', 'Mirror', 'Mug', 'Newspaper', 'Ottoman', 'Painting', 'Pan',
-            'PaperTowel', 'PaperTowelRoll', 'Pen', 'Pencil', 'PepperShaker', 'Pillow',
-            'Plate', 'Plunger', 'Poster', 'Pot', 'Potato', 'RemoteControl', 'Safe',
-            'SaltShaker', 'ScrubBrush', 'Shelf', 'ShowerDoor', 'ShowerGlass', 'Sink',
-            'SinkBasin', 'SoapBar', 'SoapBottle', 'Sofa', 'Spatula', 'Spoon', 'SprayBottle',
-            'Statue', 'StoveBurner', 'StoveKnob', 'DiningTable', 'CoffeeTable', 'SideTable',
-            'TeddyBear', 'Television', 'TennisRacket', 'TissueBox', 'Toaster', 'Toilet',
-            'ToiletPaper', 'ToiletPaperHanger', 'ToiletPaperRoll', 'Tomato', 'Towel',
-            'TowelHolder', 'TVStand', 'Vase', 'Watch', 'WateringCan', 'Window', 'WineBottle'
-        ]
         # LETTERS = ['A', 'B', 'C', 'D', 'E']
         
-        # Format the valid objects list for the prompt
-        valid_objects_str = ", ".join(VALID_OBJECTS)
+        valid_objects_str = self.VALID_OBJECTS
         
         #header
         prompt = "You are helping to create a high-level plan for completing a household task. Your job is to predict if a sequence of actions will be successful. Sequences may be unsuccessful for a multitude of reasons, including but not limited to:"
-        prompt += "\n- The plan did not navigate to the object before interacting with it."
+        if self.config.get("is_thor", False):
+            prompt += "\n- The plan did not navigate to the object before interacting with it."
         prompt += "\n- The plan tried to put an object in a container that is not open."
         prompt += "\n- The plan tried to wash or clean a dirty object without putting it in the sink first."
         prompt += "\n- The plan tried to turn on the microwave without closing it first."
-        prompt += "\n- The plan tried to navigate to the CounterTop instead of the object itself (the countertop is very large and objects on it are typically not reachable from the countertop itself)"
+        if self.config.get("is_thor", False):
+            prompt += "\n- The plan tried to navigate to the CounterTop instead of the object itself (the countertop is very large and objects on it are typically not reachable from the countertop itself)"
         prompt += "\n- The plan tried to put down an object without picking it up first."
         prompt += "\n- The plan tried to pickup an object while already holding another object."
         prompt += "\n\n For the following sequence of actions, answer 'Yes' if the sequence will be successful, and 'No' if the sequence will be unsuccessful."
@@ -898,7 +891,7 @@ class Tree_Search_LLM_Planner(LLM_Planner):
         log.debug("Prompt generation complete")
         return prompt
     
-    def generate_gpt_action_prob_prompt(self, curr_task, plan_steps, plan_options, includeLow=False, dynamic=True, additional_info = []):
+    def generate_gpt_action_prob_prompt(self, curr_task, plan_steps, plan_options, includeLow=False, dynamic=True, additional_info = [], think=False, thoughts=""):
         prompt = self.generate_action_probs_prompt(
             curr_task, 
             k=self.config["num_in_context_examples"], 
@@ -906,7 +899,9 @@ class Tree_Search_LLM_Planner(LLM_Planner):
             plan_options=plan_options, 
             includeLow=includeLow, 
             dynamic=dynamic,
-            additional_info=additional_info
+            additional_info=additional_info,
+            think=think,
+            thoughts=thoughts
             )
         return prompt
     
@@ -948,6 +943,13 @@ class Tree_Search_LLM_Planner(LLM_Planner):
 
     
     def generate_diverse_plans(self, curr_task, encoded_frames, n_plans = 5, word_sim_thresh = 0.7):
+        # Closed-source APIs (OpenAI / Anthropic) do not return full-vocab
+        # logprobs for generated tokens, so the token-suppression based
+        # diversity forcing below cannot run. Fall back to prompt-only
+        # diversity by sampling at non-zero temperature.
+        is_closed_source = getattr(self, "is_closed_source_model", False)
+        diverse_temperature = 0.0 if not is_closed_source else 0.8
+
         prompt = self.generate_gpt_prompt(
             curr_task, 
             k=self.config["num_in_context_examples"], 
@@ -960,8 +962,13 @@ class Tree_Search_LLM_Planner(LLM_Planner):
             self.logger.debug(prompt)
             self.logger.debug("=" * 50)
 
-        llm_out, logprobs = self.llm.generate(prompt, images=encoded_frames, temperature=0.0, return_logprobs=True, num_logprobs=10)
-        llm_out, logprobs = llm_out[0], logprobs[0]
+        if is_closed_source:
+            llm_out = self.llm.generate(prompt, images=encoded_frames, temperature=0.0)
+            llm_out = llm_out[0]
+            logprobs = None
+        else:
+            llm_out, logprobs = self.llm.generate(prompt, images=encoded_frames, temperature=0.0, return_logprobs=True, num_logprobs=10)
+            llm_out, logprobs = llm_out[0], logprobs[0]
         high_level_plans = [self.clean_llm_output(llm_out)]
 
         if self.config.get("debug", False):
@@ -970,7 +977,39 @@ class Tree_Search_LLM_Planner(LLM_Planner):
             self.logger.debug(high_level_plans)
             self.logger.debug("=" * 50)
         
-        for i in range(1, n_plans):
+        # Check if the last action failed due to visibility, if so, manually add navigation steps to common object locations
+        failed_plans = curr_task.get("failed_plans", [])
+        last_failed_plan = failed_plans[-1]
+        if "is not visible" in last_failed_plan["error"]:
+            # Manual navigation steps to common object locations
+            for location in self.common_locations:
+                plan_stub = f"Navigation {location}, OpenObject {location}, {last_failed_plan['plan']}, "
+                prompt = self.generate_gpt_prompt(
+                    curr_task, 
+                    k=self.config["num_in_context_examples"], 
+                    includeLow=self.config["use_step_instructions"], 
+                    dynamic=self.config["dynamic"],
+                    diverse=True,
+                    prev_plans=high_level_plans
+                )
+                prompt += plan_stub
+                # Try to finish the plan with no generation prompt (this makes the llm better respect the plan stub)
+                llm_out = self.llm.generate(prompt, images=encoded_frames, temperature=0.0, add_generation_prompt=False, continue_final_message=True)[0]
+                # Sometimes generating without the generation prompt returns nothing, if so, run normal generation
+                if not llm_out:
+                    llm_out = self.llm.generate(prompt, images=encoded_frames, temperature=0.0)[0]
+
+                if self.config.get("debug", False):
+                    self.logger.debug("=" * 50)
+                    self.logger.debug("PLAN STUB:")
+                    self.logger.debug(plan_stub)
+                    self.logger.debug("LLM OUTPUT:")
+                    self.logger.debug(llm_out)
+                    self.logger.debug("=" * 50)
+                new_plan = self.clean_llm_output(plan_stub + llm_out)
+                high_level_plans.append(new_plan)
+        
+        for i in range(len(high_level_plans), n_plans):
             prompt = self.generate_gpt_prompt(
                 curr_task, 
                 k=self.config["num_in_context_examples"], 
@@ -979,6 +1018,20 @@ class Tree_Search_LLM_Planner(LLM_Planner):
                 diverse=True,
                 prev_plans=high_level_plans
             )
+
+            if is_closed_source:
+                # Closed-source models: sample with temperature > 0 and
+                # rely on the diverse-prompt context to produce variation.
+                llm_out = self.llm.generate(
+                    prompt,
+                    images=encoded_frames,
+                    temperature=diverse_temperature,
+                )
+                llm_out = llm_out[0]
+                logprobs = None
+                new_plan = self.clean_llm_output(llm_out)
+                high_level_plans.append(new_plan)
+                continue
 
             llm_out, logprobs = self.llm.generate(prompt, images=encoded_frames, temperature=0.0, return_logprobs=True, num_logprobs=10)
             llm_out, logprobs = llm_out[0], logprobs[0]
@@ -1150,8 +1203,24 @@ class Tree_Search_LLM_Planner(LLM_Planner):
         Generate a tree of high-level plans for exploration. Each plan is generated with the same prompt but with a diversity constraint to encourage different plans.
         """
         diverse_plans = self.generate_diverse_plans(curr_task, encoded_frames, n_plans=n_plans)
-        plan_tree = {}
+        if self.config.get("debug", False):
+            self.logger.debug("=" * 50)
+            self.logger.debug("DIVERSE PLANS:")
+            self.logger.debug(diverse_plans)
+            self.logger.debug("=" * 50)
+        # check to make sure all plans are valid by ensuring each step has no more than three parts (separated by spaces)
+        valid_plans = []
         for plan in diverse_plans:
+            valid_plan = True
+            for step in plan:
+                if len(step.split()) > 3:
+                    valid_plan = False
+                    break
+            if valid_plan:
+                valid_plans.append(plan)
+
+        plan_tree = {}
+        for plan in valid_plans:
             current_level = plan_tree
             for i in range(len(plan)):
                 if plan[i] not in current_level:
@@ -1159,7 +1228,7 @@ class Tree_Search_LLM_Planner(LLM_Planner):
                 current_level = current_level[plan[i]]
         return plan_tree
     
-    def action_probs_tree_search(self, curr_task, encoded_frames):
+    def action_probs_tree_search(self, curr_task, encoded_frames, think=False):
         plan_tree = self.generate_plan_tree(curr_task, encoded_frames, n_plans=self.config.get("num_diverse_plans", 5))
         if self.config.get("debug", False):
             self.logger.debug("=" * 50)
@@ -1180,13 +1249,36 @@ class Tree_Search_LLM_Planner(LLM_Planner):
                     selected_steps, 
                     plan_options, 
                     includeLow=self.config["use_step_instructions"], 
-                    dynamic=self.config["dynamic"]
+                    dynamic=self.config["dynamic"],
+                    think=think,
                     )
                 if self.config.get("debug", False):
                     self.logger.debug("=" * 50)
                     self.logger.debug("ACTION PROB PROMPT:")
                     self.logger.debug(action_prob_prompt)
                     self.logger.debug("=" * 50)
+                if think:
+                    thoughts = self.llm.generate(action_prob_prompt, images=encoded_frames, temperature=0.0)[0]
+                    if self.config.get("debug", False):
+                        self.logger.debug("=" * 50)
+                        self.logger.debug("THOUGHTS:")
+                        self.logger.debug(thoughts)
+                        self.logger.debug("=" * 50)
+                    action_prob_prompt = self.generate_gpt_action_prob_prompt(
+                        curr_task, 
+                        selected_steps, 
+                        plan_options, 
+                        includeLow=self.config["use_step_instructions"], 
+                        dynamic=self.config["dynamic"],
+                        think=False,
+                        thoughts=thoughts
+                    )
+                    if self.config.get("debug", False):
+                        self.logger.debug("=" * 50)
+                        self.logger.debug("ACTION PROB PROMPT:")
+                        self.logger.debug(action_prob_prompt)
+                        self.logger.debug("=" * 50)
+
                 action_probs = self.llm.MCQ_probabilities(action_prob_prompt, images=encoded_frames)[:len(plan_options)]
                 action_probs /= np.sum(action_probs)
                 if self.config.get("debug", False):
@@ -1254,6 +1346,86 @@ class Tree_Search_LLM_Planner(LLM_Planner):
                 selected_steps.append(selected_option)
                 current_level = current_level[selected_option]
         return selected_steps
+    
+    def combined_probs_tree_search(self, curr_task, encoded_frames):
+        plan_tree = self.generate_plan_tree(curr_task, encoded_frames, n_plans=self.config.get("num_diverse_plans", 5))
+        if self.config.get("debug", False):
+            self.logger.debug("=" * 50)
+            self.logger.debug("PLAN TREE:")
+            print_tree(plan_tree, print_function=self.logger.debug)
+            self.logger.debug("=" * 50)
+        selected_steps = []
+        current_level = plan_tree
+        while len(current_level) > 0:
+            if len(current_level) == 1:
+                next_step = list(current_level.keys())[0]
+                selected_steps.append(next_step)
+                current_level = current_level[next_step]
+            elif len(current_level) > 1:
+                plan_options = list(current_level.keys())
+                transition_probs = []
+                for plan_option in plan_options:
+                    # Collect the set of steps from this step untill the next branching point or the end of the plan
+                    future_plans = [plan_option]
+                    future_level = current_level[plan_option]
+                    while len(future_level) > 0:
+                        if len(future_level) == 1:
+                            next_step = list(future_level.keys())[0]
+                            future_plans.append(next_step)
+                            future_level = future_level[next_step]
+                        elif len(future_level) > 1:
+                            break
+
+                    transition_prob_prompt = self.generate_gpt_transition_prob_prompt(
+                        curr_task, 
+                        selected_steps, 
+                        future_plans, 
+                        includeLow=self.config["use_step_instructions"], 
+                        dynamic=self.config["dynamic"]
+                        )
+                    if self.config.get("debug", False):
+                        self.logger.debug("=" * 50)
+                        self.logger.debug("TRANSITION PROB PROMPT:")
+                        self.logger.debug(transition_prob_prompt)
+                        self.logger.debug("=" * 50)
+                    transition_probs.append(self.llm.yes_no_probabilities(transition_prob_prompt, images=encoded_frames)[0])
+                if self.config.get("debug", False):
+                    self.logger.debug("=" * 50)
+                    self.logger.debug("TRANSITION PROBABILITIES:")
+                    for i in range(len(plan_options)):
+                        self.logger.debug(f"Step: {plan_options[i]}, Transition Probability: {transition_probs[i]:.4f}")
+                    self.logger.debug("=" * 50)
+                action_prob_prompt = self.generate_gpt_action_prob_prompt(
+                    curr_task, 
+                    selected_steps, 
+                    plan_options, 
+                    includeLow=self.config["use_step_instructions"], 
+                    dynamic=self.config["dynamic"]
+                    )
+                if self.config.get("debug", False):
+                    self.logger.debug("=" * 50)
+                    self.logger.debug("ACTION PROB PROMPT:")
+                    self.logger.debug(action_prob_prompt)
+                    self.logger.debug("=" * 50)
+                action_probs = self.llm.MCQ_probabilities(action_prob_prompt, images=encoded_frames)[:len(plan_options)]
+                action_probs /= np.sum(action_probs)
+                if self.config.get("debug", False):
+                    self.logger.debug("=" * 50)
+                    self.logger.debug("ACTION PROBABILITIES:")
+                    for i in range(len(plan_options)):
+                        self.logger.debug(f"{plan_options[i]}: {action_probs[i]:.4f}")
+                    self.logger.debug("=" * 50)
+                combined_probs = np.array(transition_probs) * np.array(action_probs)
+                if self.config.get("debug", False):
+                    self.logger.debug("=" * 50)
+                    self.logger.debug("COMBINED PROBABILITIES:")
+                    for i in range(len(plan_options)):
+                        self.logger.debug(f"{plan_options[i]}: {combined_probs[i]:.4f}")
+                    self.logger.debug("=" * 50)
+                selected_option = plan_options[np.argmax(combined_probs)]
+                selected_steps.append(selected_option)
+                current_level = current_level[selected_option]
+        return selected_steps
         
     
     def get_high_level_plan(self, curr_task, encoded_frames):
@@ -1264,9 +1436,11 @@ class Tree_Search_LLM_Planner(LLM_Planner):
         if "failed_plans" in curr_task:
             self.logger.debug("In dynamic replanning mode, using action probabilities tree search to select next plan.")
             if self.mode == "action_prob":
-                return self.action_probs_tree_search(curr_task, encoded_frames)
+                return self.action_probs_tree_search(curr_task, encoded_frames, think=True)
             elif self.mode == "transition_prob":
                 return self.transition_probs_tree_search(curr_task, encoded_frames)
+            elif self.mode == "combined_prob":
+                return self.combined_probs_tree_search(curr_task, encoded_frames)
             else:
                 raise ValueError(f"Invalid mode: {self.mode}")
         else:
@@ -1278,43 +1452,31 @@ def calculate_entropy(probabilities):
     """
     return -np.sum(probabilities * np.log(probabilities + 1e-10))
 
+def calculate_KL_divergence(probabilities1, probabilities2):
+    """
+    Calculate the KL divergence between two probability distributions.
+    """
+    return np.sum(probabilities1 * np.log(probabilities1 / probabilities2 + 1e-10))
+
 class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
     def __init__(self, llm_config: dict, client: OpenAI, debug: bool=False, logger: Union[logging.Logger, None] = None):
         print(f"Entropy Reduction Got logger: {logger}")
         super().__init__(llm_config, client, debug, logger)
         self.confidence_threshold = llm_config.get("confidence_threshold", 0.9)
         self.max_question_iterations = llm_config.get("max_question_iterations", 5)
+        self.info_gain_metric = llm_config.get("info_gain_metric", "entropy")
 
-    def generate_question_prompt(self, curr_task, k, plan_steps, plan_options, removeNav=False, naturalFormat=False, includeLow=False, dynamic=True, additional_info=[]):
+    def generate_question_prompt(self, curr_task, k, plan_steps, plan_options, removeNav=False, naturalFormat=False, includeLow=False, dynamic=True, additional_info=[], think=False, thoughts=""):
         log.debug(f"Generating prompt with {k} examples, includeLow={includeLow}, dynamic={dynamic}")
-        # Define the valid objects list
-        VALID_OBJECTS = [
-            'AlarmClock', 'Apple', 'ArmChair', 'BaseballBat', 'BasketBall', 'Bathtub',
-            'BathtubBasin', 'Bed', 'Blinds', 'Book', 'Boots', 'Bowl', 'Box', 'Bread',
-            'ButterKnife', 'Cabinet', 'Candle', 'Cart', 'CD', 'CellPhone', 'Chair',
-            'Cloth', 'CoffeeMachine', 'CounterTop', 'CreditCard', 'Cup', 'Curtains',
-            'Desk', 'DeskLamp', 'DishSponge', 'Drawer', 'Dresser', 'Egg', 'FloorLamp',
-            'Footstool', 'Fork', 'Fridge', 'GarbageCan', 'Glassbottle', 'HandTowel',
-            'HandTowelHolder', 'HousePlant', 'Kettle', 'KeyChain', 'Knife', 'Ladle',
-            'Laptop', 'LaundryHamper', 'LaundryHamperLid', 'Lettuce', 'LightSwitch',
-            'Microwave', 'Mirror', 'Mug', 'Newspaper', 'Ottoman', 'Painting', 'Pan',
-            'PaperTowel', 'PaperTowelRoll', 'Pen', 'Pencil', 'PepperShaker', 'Pillow',
-            'Plate', 'Plunger', 'Poster', 'Pot', 'Potato', 'RemoteControl', 'Safe',
-            'SaltShaker', 'ScrubBrush', 'Shelf', 'ShowerDoor', 'ShowerGlass', 'Sink',
-            'SinkBasin', 'SoapBar', 'SoapBottle', 'Sofa', 'Spatula', 'Spoon', 'SprayBottle',
-            'Statue', 'StoveBurner', 'StoveKnob', 'DiningTable', 'CoffeeTable', 'SideTable',
-            'TeddyBear', 'Television', 'TennisRacket', 'TissueBox', 'Toaster', 'Toilet',
-            'ToiletPaper', 'ToiletPaperHanger', 'ToiletPaperRoll', 'Tomato', 'Towel',
-            'TowelHolder', 'TVStand', 'Vase', 'Watch', 'WateringCan', 'Window', 'WineBottle'
-        ]
         LETTERS = ['A', 'B', 'C', 'D', 'E']
         
-        # Format the valid objects list for the prompt
-        valid_objects_str = ", ".join(VALID_OBJECTS)
+        valid_objects_str = self.VALID_OBJECTS
         
         #header
-        prompt = "Create a high-level plan for completing a household task using the allowed actions. Select the next best action from the provided options. Always try to navigate to the object before interacting with it. If an object is on the CounterTop, navigate to the object itself rather than the CounterTop."
-        
+        prompt = "Create a high-level plan for completing a household task using the allowed actions. Select the next best action from the provided options."
+        if self.config.get("is_thor", False):
+            prompt += " Always try to navigate to the object before interacting with it. If an object is on the CounterTop, navigate to the object itself rather than the CounterTop."
+
         if naturalFormat:
             prompt += f"\n\n\nAllowed actions: {', '.join(ACT_TO_STR.values())}" 
         else:
@@ -1468,6 +1630,12 @@ class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
         prompt += "\nBefore you answer, propose a question that might help clarify the task. This question should be answerable from visual information and the answer to this question should help disambiguate among the options. Possible good questions include asking about the existence of objects: 'Did you see a TableLamp?', asking about the state of objects: 'Is the apple sliced?', or asking if certain task conditions have been met: 'Was the bowl cleaned?'. Make sure the question is relevant to your decision."
         if additional_info:
             prompt += "\n" + "\n".join(additional_info)
+        if think:
+            prompt += "\n\nSpend some time thinking about what question might help disambiguate among the options. Don't answer immediately. Make sure the question is answerable from visual information.\n"
+            prompt += "\n\nThoughts:\n"
+        else:
+            if thoughts:
+                prompt += "\n\nThoughts:\n" + thoughts
         prompt += "\nQuestion:"
         curr_task["Prompts"] = prompt
         
@@ -1478,7 +1646,7 @@ class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
         log.debug("Prompt generation complete")
         return prompt
 
-    def generate_gpt_question_prompt(self, curr_task, plan_steps, plan_options, includeLow=False, dynamic=True, additional_info=[]):
+    def generate_gpt_question_prompt(self, curr_task, plan_steps, plan_options, includeLow=False, dynamic=True, additional_info=[], think=False, thoughts=""):
         prompt = self.generate_question_prompt(
             curr_task, 
             k=self.config["num_in_context_examples"], 
@@ -1486,11 +1654,21 @@ class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
             plan_options=plan_options, 
             includeLow=includeLow, 
             dynamic=dynamic,
-            additional_info=additional_info
+            additional_info=additional_info,
+            think=think,
+            thoughts=thoughts
             )
         return prompt
     
-    def action_space_entropy_reduction_planner(self, curr_task, encoded_frames):
+    def compute_info_gain(self, prior_action_probs, posterior_action_probs):
+        if self.info_gain_metric == "entropy":
+            return calculate_entropy(prior_action_probs) - calculate_entropy(posterior_action_probs)
+        elif self.info_gain_metric == "KL_divergence":
+            return calculate_KL_divergence(prior_action_probs, posterior_action_probs)
+        else:
+            raise ValueError(f"Invalid info gain metric: {self.info_gain_metric}")
+            
+    def action_space_entropy_reduction_planner(self, curr_task, encoded_frames, think=False):
         """
         This planner aims to reduce the entropy of the action space collecting new information.
         """
@@ -1543,7 +1721,27 @@ class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
                         curr_task,
                         selected_steps,
                         plan_options,
+                        think=think,
                     )
+                    if think:
+                        thoughts = self.llm.generate(question_prompt, n=self.max_question_iterations, temperature=1.0, images=[])[0]
+                        if self.config.get("debug", False):
+                            self.logger.debug("=" * 50)
+                            self.logger.debug("THOUGHTS:")
+                            self.logger.debug(thoughts)
+                            self.logger.debug("=" * 50)
+                        question_prompt = self.generate_gpt_question_prompt(
+                            curr_task, 
+                            selected_steps, 
+                            plan_options, 
+                            think=False,
+                            thoughts=thoughts
+                        )
+                        if self.config.get("debug", False):
+                            self.logger.debug("=" * 50)
+                            self.logger.debug("QUESTION PROMPT:")
+                            self.logger.debug(question_prompt)
+                            self.logger.debug("=" * 50)
                     questions = self.llm.generate(question_prompt, n=self.max_question_iterations, temperature=1.0, images=[])
                     questions = [self.clean_QA_output(question) for question in questions]
                     if self.config.get("debug", False):
@@ -1567,7 +1765,7 @@ class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
                             )
                             posterior_action_probs = self.llm.MCQ_probabilities(posterior_action_prob_prompt, images=[])[:len(plan_options)]
                             posterior_action_probs /= np.sum(posterior_action_probs)
-                            info_gain = calculate_entropy(prior_action_probs) - calculate_entropy(posterior_action_probs)
+                            info_gain = self.compute_info_gain(prior_action_probs, posterior_action_probs)
                             if self.config.get("debug", False):
                                 self.logger.debug("=" * 50)
                                 self.logger.debug(f"IMAGINED QUESTION: {question}")
@@ -1615,7 +1813,7 @@ class Entropy_reduction_LLM_Planner(Tree_Search_LLM_Planner):
                             for i in range(len(plan_options)):
                                 self.logger.debug(f"{plan_options[i]}: {posterior_action_probs[i]:.4f}")
                             self.logger.debug("=" * 50)
-                        info_gain = calculate_entropy(prior_action_probs) - calculate_entropy(posterior_action_probs)
+                        info_gain = self.compute_info_gain(prior_action_probs, posterior_action_probs)
                         if info_gain > 0:
                             additional_info.append(f"Question: {question} \n Answer: {answer}")
                             self.logger.debug("=" * 50)

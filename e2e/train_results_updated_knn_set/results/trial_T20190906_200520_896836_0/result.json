@@ -1,0 +1,38 @@
+{
+  "trial": "trial_T20190906_200520_896836",
+  "scene": "FloorPlan412",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "Move the white towel from the wall to the cabinet under the sink on the left",
+  "initial_high_level_plans": [
+    "Navigation handtowel",
+    "Navigation handtowel",
+    "Navigation handtowel",
+    "PickupObject handtowel",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation cabinet",
+    "PutObject handtowel cabinet",
+    "Navigation cabinet",
+    "CloseObject cabinet"
+  ],
+  "completed_plans": [
+    "Navigation handtowel",
+    "Navigation handtowel",
+    "Navigation handtowel",
+    "PickupObject handtowel",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation cabinet",
+    "PutObject handtowel cabinet",
+    "Navigation cabinet",
+    "CloseObject cabinet"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

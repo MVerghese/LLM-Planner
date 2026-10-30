@@ -1,0 +1,30 @@
+{
+  "trial": "trial_T20190907_060446_184846",
+  "scene": "FloorPlan303",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "Examine the baseball bat using the lamp light.",
+  "initial_high_level_plans": [
+    "Navigation baseballbat",
+    "Navigation baseballbat",
+    "Navigation baseballbat",
+    "PickupObject baseballbat",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp"
+  ],
+  "completed_plans": [
+    "Navigation baseballbat",
+    "Navigation baseballbat",
+    "Navigation baseballbat",
+    "PickupObject baseballbat",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

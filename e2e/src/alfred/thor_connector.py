@@ -43,6 +43,7 @@ class ThorConnector(ThorEnv):
         self.cur_receptacle = None
         self.reachable_positions, self.reachable_position_kdtree = None, None
         self.sliced = False
+        self.strict_visibility = False
         log.debug("ThorConnector initialized")
 
     def restore_scene(self, object_poses, object_toggles, dirty_and_empty):
@@ -103,7 +104,7 @@ class ThorConnector(ThorEnv):
         if instruction.startswith("Navigation "):
             obj_name = instruction.replace('Navigation ', '')
             self.cur_receptacle = obj_name
-            ret = self.nav_obj(natural_word_to_ithor_name(obj_name), self.sliced)
+            ret = self.nav_obj(natural_word_to_ithor_name(obj_name), self.sliced, self.strict_visibility)
         
         # Handle PickupObject
         elif instruction.startswith("PickupObject "):
@@ -192,12 +193,16 @@ class ThorConnector(ThorEnv):
         y = math.radians(y)
         return math.degrees(math.atan2(math.sin(x - y), math.cos(x - y)))
     
-    def nav_obj(self, target_obj: str, prefer_sliced=False):
+    def nav_obj(self, target_obj: str, prefer_sliced=False, only_visible=False):
         log.debug(f'Navigation to {target_obj} (prefer_sliced={prefer_sliced})')
         objects = self.last_event.metadata['objects']
         action_name = 'object navigation'
         ret_msg = ''
         log.info(f'{action_name} ({target_obj})')
+
+        current_position = self.last_event.metadata['agent']['position']
+        current_rotation = self.last_event.metadata['agent']['rotation']
+        current_horizon = self.last_event.metadata['agent']['cameraHorizon']
 
         # get the object location
         obj_id, obj_data = self.get_obj_id_from_name(target_obj, priority_in_visibility=True, priority_sliced=prefer_sliced)
@@ -273,6 +278,19 @@ class ThorConnector(ThorEnv):
 
             if not teleport_success:
                 ret_msg = f'Cannot move to {target_obj}'
+                return ret_msg
+        # Update the objects
+        objects = self.last_event.metadata['objects']
+        if only_visible and not objects[obj_idx]['visible']:
+            ret_msg = f'{target_obj} is not visible'
+            # teleport back to the current position
+            super().step(dict(action="TeleportFull",
+                              x=current_position['x'], y=self.agent_height, z=current_position['z'],
+                              rotation=current_rotation['y'], horizon=current_horizon))
+            if not self.last_event.metadata['lastActionSuccess']:
+                log.warning(
+                    f"Teleport back to current position failed: {self.last_event.metadata['errorMessage']}")
+            return ret_msg
 
         return ret_msg
 
@@ -328,7 +346,10 @@ class ThorConnector(ThorEnv):
         else:
             if obj_data['visible'] is False and obj_data['parentReceptacles'] is not None and len(obj_data['parentReceptacles']) > 0:
                 recep_name = obj_data["parentReceptacles"][0].split('|')[0]
-                ret_msg = f'{obj_name} is not visible because it is in {recep_name}'
+                if self.strict_visibility:
+                    ret_msg = f'{obj_name} is not visible'
+                else:
+                    ret_msg = f'{obj_name} is not visible because it is in {recep_name}'
 
                 # try anyway
                 super().step(dict(

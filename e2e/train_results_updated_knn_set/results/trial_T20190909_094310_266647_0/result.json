@@ -1,0 +1,88 @@
+{
+  "trial": "trial_T20190909_094310_266647",
+  "scene": "FloorPlan309",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "examine keys with the lamp",
+  "initial_high_level_plans": [
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "PickupObject keychain",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "completed_plans": [
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "PickupObject keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain"
+  ],
+  "dynamic_plans": [
+    "Navigation keychain, Navigation keychain, Navigation keychain, PickupObject keychain, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation keychain, Navigation keychain, Navigation keychain, PickupObject keychain, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation keychain, Navigation keychain, Navigation keychain, PickupObject keychain, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation keychain, Navigation keychain, Navigation keychain, PickupObject keychain, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation keychain, Navigation keychain, Navigation keychain, PickupObject keychain, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp"
+  ],
+  "failed_plans": [
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "PickupObject keychain",
+      "error": "Robot is currently holding KeyChain"
+    },
+    {
+      "plan": "PickupObject keychain",
+      "error": "Robot is currently holding KeyChain"
+    },
+    {
+      "plan": "PickupObject keychain",
+      "error": "Robot is currently holding KeyChain"
+    },
+    {
+      "plan": "PickupObject keychain",
+      "error": "Robot is currently holding KeyChain"
+    },
+    {
+      "plan": "PickupObject keychain",
+      "error": "Robot is currently holding KeyChain"
+    },
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "Navigation floorlamp",
+      "error": "Cannot find Floorlamp"
+    },
+    {
+      "plan": "ToggleObjectOn floorlamp",
+      "error": "Cannot find Floorlamp to turn on"
+    }
+  ],
+  "success": false
+}

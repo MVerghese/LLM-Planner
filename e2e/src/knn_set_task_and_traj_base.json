@@ -1,0 +1,3691 @@
+[
+  {
+    "task_instr": "Put cold apple on a table. ",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Knife', 'DiningTable')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','AppleSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a cleaned fork on the table.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Fork')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Fork', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','Fork')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Fork', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move two salt shakers from the cabinet above the stove to the drawer.",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SaltShaker')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','SaltShaker', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SaltShaker')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','SaltShaker', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Slice a potato, cook a slice, put it in the fridge",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Potato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Sink')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','PotatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Wash the soap that you found in the cabinet and place it back in the cabinet",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SoapBar')"
+      ],
+      [
+        "('PutObject','SoapBar', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','SoapBar')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('PutObject','SoapBar', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move a laptop from a coffee table to an armchair.",
+    "gold_traj": [
+      [
+        "('Navigation','CoffeeTable')"
+      ],
+      [
+        "('CloseObject','Laptop')",
+        "('PickupObject','Laptop')"
+      ],
+      [
+        "('Navigation','ArmChair')"
+      ],
+      [
+        "('PutObject','Laptop', 'ArmChair')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Examine a set of keys under a tall lamp",
+    "gold_traj": [
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PickupObject','KeyChain')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','FloorLamp')"
+      ],
+      [
+        "('ToggleObjectOn','FloorLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two gold spoons in the drawer below the stove",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Ladle')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','Ladle', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','Ladle')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','Ladle', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "place a cooled tomato slice inside of the microwave",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Sink')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','TomatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','TomatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Carry a knife to cut the yellow apple in the fridge",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put washed apple piece inside the microwave next to the gray knife.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','ButterKnife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two salt shakers in the drawer.",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SaltShaker')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','SaltShaker', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','SaltShaker')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','SaltShaker', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "To cool a potato slice and place it in the microwave.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','PotatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Microwave a potato in a bowl.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Potato')"
+      ],
+      [
+        "('Navigation','Bowl')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','Potato', 'Bowl')"
+      ],
+      [
+        "('PickupObject','Bowl')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Bowl', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Heat up a slice of tomato in the microwave to put in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Tomato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Knife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','TomatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','TomatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move the white towel from the wall to the cabinet under the sink on the left",
+    "gold_traj": [
+      [
+        "('Navigation','HandTowelHolder')"
+      ],
+      [
+        "('PickupObject','HandTowel')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','HandTowel', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Chill a cut piece of apple and put it in the microwave.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Microwave')"
+      ],
+      [
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','AppleSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a plate with an apple piece and knife in the refrigerator.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Plate')"
+      ],
+      [
+        "('PutObject','Knife', 'Plate')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Plate')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'Plate')"
+      ],
+      [
+        "('PickupObject','Plate')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Plate', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place the two laptops on the ottoman.",
+    "gold_traj": [
+      [
+        "('Navigation','CoffeeTable')"
+      ],
+      [
+        "('CloseObject','Laptop')",
+        "('PickupObject','Laptop')"
+      ],
+      [
+        "('Navigation','Ottoman')"
+      ],
+      [
+        "('PutObject','Laptop', 'Ottoman')"
+      ],
+      [
+        "('Navigation','Sofa')"
+      ],
+      [
+        "('CloseObject','Laptop')",
+        "('PickupObject','Laptop')"
+      ],
+      [
+        "('Navigation','Ottoman')"
+      ],
+      [
+        "('PutObject','Laptop', 'Ottoman')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place clean lettuce in the green bin.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Lettuce')"
+      ],
+      [
+        "('SliceObject','Lettuce')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','Knife', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a plate with a piece of apple on it on a table.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Plate')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'Plate')"
+      ],
+      [
+        "('PickupObject','Plate')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Plate', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Slice tomato to be placed in a pan with a knife to be moved to the counter by the stove.",
+    "gold_traj": [
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PickupObject','Tomato')"
+      ],
+      [
+        "('Navigation','Pan')"
+      ],
+      [
+        "('PutObject','Tomato', 'Pan')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('PutObject','Knife', 'Pan')"
+      ],
+      [
+        "('PickupObject','Pan')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Pan', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Cut a tomato on the counter",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a heated egg in the sink.",
+    "gold_traj": [
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','Egg')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Egg', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','Egg')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Egg', 'Sink')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "examine keys with the lamp",
+    "gold_traj": [
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ],
+      [
+        "('PickupObject','KeyChain')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a slice of bread in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('SliceObject','Bread')"
+      ],
+      [
+        "('PutObject','Knife', 'Sink')"
+      ],
+      [
+        "('PickupObject','BreadSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','BreadSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Bread')"
+      ],
+      [
+        "('SliceObject','Bread')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','ButterKnife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','BreadSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','BreadSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a clean knife in a drawer.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','ButterKnife', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put cooked apple on a counter.",
+    "gold_traj": [
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PickupObject','Apple')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Apple', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "To turn on a lamp and pick up a pen. ",
+    "gold_traj": [
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ],
+      [
+        "('PickupObject','Pen')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a wet bar of soap under the sink.",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SoapBar')"
+      ],
+      [
+        "('PutObject','SoapBar', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','SoapBar')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','SoapBar', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a washed potato slice on the white table",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Potato')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place two apple slices and a knife in the microwave",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','ButterKnife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')"
+      ],
+      [
+        "('PickupObject','ButterKnife')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','ButterKnife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two soaps on the toilet tank lid. ",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SoapBottle')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Toilet')"
+      ],
+      [
+        "('PutObject','SoapBottle', 'Toilet')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','SoapBottle')"
+      ],
+      [
+        "('Navigation','Toilet')"
+      ],
+      [
+        "('PutObject','SoapBottle', 'Toilet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a warm apple in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Sink')"
+      ],
+      [
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','AppleSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a pan with a knife and lettuce in the fridge. ",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Lettuce')"
+      ],
+      [
+        "('Navigation','Pan')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Pan')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','Pan')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'Pan')"
+      ],
+      [
+        "('PickupObject','Pan')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Pan', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "place a pot with a sponge in it in a kitchen cabinet",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','DishSponge')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Pot')"
+      ],
+      [
+        "('PutObject','DishSponge', 'Pot')"
+      ],
+      [
+        "('PickupObject','Pot')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','Pot', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a box with a bottle on a table.",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','Vase')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Box')"
+      ],
+      [
+        "('PutObject','Vase', 'Box')"
+      ],
+      [
+        "('PickupObject','Box')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Box', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Freeze slices of bread and chill a knife and a slice of bread.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('SliceObject','Bread')"
+      ],
+      [
+        "('Navigation','Bread')"
+      ],
+      [
+        "('SliceObject','Bread')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Knife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','BreadSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','BreadSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','BreadSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','BreadSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a slice of tomato on the small black table.",
+    "gold_traj": [
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','Tomato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Tomato', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('PutObject','Knife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','TomatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PutObject','TomatoSliced', 'SideTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away knife, slice, chill tomato, put tomato on counter",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','TomatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','TomatoSliced', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a chilled bottle of wine in the cabinet.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','WineBottle')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','WineBottle', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','WineBottle')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','WineBottle', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a cleaned potato in the microwave.",
+    "gold_traj": [
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','Potato')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Potato', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','Potato')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Potato', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a heated plate down in a corner cabinet. ",
+    "gold_traj": [
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','Plate')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Plate', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','Plate')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','Plate', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Throw away a heated slice of bread.",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Bread')"
+      ],
+      [
+        "('SliceObject','Bread')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','Knife', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','BreadSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','BreadSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','BreadSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','BreadSliced', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put the apple slice in the trash.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Apple')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Apple', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','AppleSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two candles in the drawer under the sink.",
+    "gold_traj": [
+      [
+        "('Navigation','Candle')"
+      ],
+      [
+        "('PickupObject','Candle')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','Candle', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Candle')"
+      ],
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PutObject','Candle', 'Drawer')",
+        "('CloseObject','Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a black pot with a cut up tomato and a knife in it into the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PickupObject','Tomato')"
+      ],
+      [
+        "('Navigation','Pot')"
+      ],
+      [
+        "('PutObject','Tomato', 'Pot')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Pot')"
+      ],
+      [
+        "('PickupObject','Pot')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Pot', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two water bottles on the toilet tank. ",
+    "gold_traj": [
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PickupObject','SoapBottle')"
+      ],
+      [
+        "('Navigation','Toilet')"
+      ],
+      [
+        "('PutObject','SoapBottle', 'Toilet')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SoapBottle')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Toilet')"
+      ],
+      [
+        "('PutObject','SoapBottle', 'Toilet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a warm egg in the trash.",
+    "gold_traj": [
+      [
+        "('Navigation','Egg')"
+      ],
+      [
+        "('PickupObject','Egg')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Egg', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','Egg')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','Egg', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move two pots, one with the tomato slice inside, to the table. ",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Tomato')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Tomato', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Pot')"
+      ],
+      [
+        "('PutObject','TomatoSliced', 'Pot')"
+      ],
+      [
+        "('PickupObject','Pot')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Pot', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Slice the potato using the knife.  Put the knife in the fridge with the potato in the pan. ",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Knife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','Pot')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'Pot')"
+      ],
+      [
+        "('PickupObject','Pot')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Pot', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put watches on a shelf.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Watch')"
+      ],
+      [
+        "('Navigation','Shelf')"
+      ],
+      [
+        "('PutObject','Watch', 'Shelf')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Watch')"
+      ],
+      [
+        "('Navigation','Shelf')"
+      ],
+      [
+        "('PutObject','Watch', 'Shelf')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put clean potato in the fridge. ",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('PutObject','Knife', 'Fridge')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "place an apple slice inside of the fridge",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Knife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','AppleSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place cold bread on the counter.",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Bread')"
+      ],
+      [
+        "('SliceObject','Bread')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','ButterKnife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','BreadSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','BreadSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','BreadSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','BreadSliced', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put the washed lettuce piece in the recycling bin",
+    "gold_traj": [
+      [
+        "('Navigation','Knife')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Lettuce')"
+      ],
+      [
+        "('SliceObject','Lettuce')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Knife', 'Sink')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place an apple slice on the table.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Knife', 'DiningTable')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','AppleSliced')"
+      ],
+      [
+        "('Navigation','Plate')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'Plate')"
+      ],
+      [
+        "('PickupObject','Plate')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Plate', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put tomato and a knife on a table.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PutObject','Knife', 'SideTable')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PutObject','TomatoSliced', 'SideTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Get dirty cloth out of cupboard, clean it off, put on counter",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','Cloth')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Cloth', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','Cloth')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Cloth', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Remove the tomato from the fridge and cut it up on the table. ",
+    "gold_traj": [
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','Tomato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PutObject','Tomato', 'SideTable')"
+      ],
+      [
+        "('Navigation','Knife')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a cooked egg in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Egg')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Egg', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','Egg')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Egg', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a chilled tomato slice into the microwave.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Tomato')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Tomato', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','TomatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','TomatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a cool apple inside a pan in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','StoveBurner')"
+      ],
+      [
+        "('PickupObject','Pot')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Pot', 'Fridge')"
+      ],
+      [
+        "('PickupObject','Apple')"
+      ],
+      [
+        "('PutObject','Apple', 'Pot')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a blue plate with a sponge on it on top of a white table.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','DishSponge')"
+      ],
+      [
+        "('Navigation','Plate')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','DishSponge', 'Plate')"
+      ],
+      [
+        "('PickupObject','Plate')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Plate', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place the refrigerated slice of lettuce on the counter to the left of the sink.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Lettuce')"
+      ],
+      [
+        "('SliceObject','Lettuce')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','LettuceSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','LettuceSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "slice a tomato and place a warmed up slice near the sink",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Knife', 'Sink')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','TomatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','TomatoSliced', 'Sink')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place two glasses in a sink.",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','Glassbottle')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Glassbottle', 'Sink')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','Glassbottle')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Glassbottle', 'Sink')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "To move the CD from the drawer to the safe.",
+    "gold_traj": [
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PickupObject','CD')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','Safe')"
+      ],
+      [
+        "('OpenObject','Safe')",
+        "('PutObject','CD', 'Safe')",
+        "('CloseObject','Safe')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move cooked food to the kitchen table. ",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Bread')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Bread')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','BreadSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','BreadSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','BreadSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','BreadSliced', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "put a cooled potato slice inside of the microwave",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Potato')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','PotatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a pot with a piece of apple in it on a table.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Apple')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Knife', 'DiningTable')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Pot')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'Pot')"
+      ],
+      [
+        "('PickupObject','Pot')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','Pot', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Grab a watch and turn a lamp on.",
+    "gold_traj": [
+      [
+        "('Navigation','Drawer')"
+      ],
+      [
+        "('OpenObject','Drawer')",
+        "('PickupObject','Watch')",
+        "('CloseObject','Drawer')"
+      ],
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Examine the baseball bat using the lamp light.",
+    "gold_traj": [
+      [
+        "('Navigation','BaseballBat')"
+      ],
+      [
+        "('PickupObject','BaseballBat')"
+      ],
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two tomatoes with the tops cut off into the microwave.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Tomato')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Tomato', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Tomato')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Tomato', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Tomato')"
+      ],
+      [
+        "('SliceObject','Tomato')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move a spoon and cup from a table to the counter.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Cup')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Cup', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put two slices of potato into the garbage can.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'GarbageCan')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'DiningTable')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put potatoes in the basket, slice one of them",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Potato')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','Potato', 'GarbageCan')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','Potato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','Potato', 'GarbageCan')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Preparing lettuce to put in the fridge",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Lettuce')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Lettuce')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','ButterKnife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','LettuceSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Bowl')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'Bowl')"
+      ],
+      [
+        "('PickupObject','Bowl')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Bowl', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Slice a potato, rinse one slice.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Potato')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Potato', 'CounterTop')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('PutObject','Knife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a washed slice of tomato in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Tomato')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Tomato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Knife', 'Sink')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','TomatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','TomatoSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','TomatoSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','TomatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put the chilled bowl on the counter",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','Bowl')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Bowl', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','Bowl')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Bowl', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "pick up a pencil and view it in the light of the lamp",
+    "gold_traj": [
+      [
+        "('Navigation','Shelf')"
+      ],
+      [
+        "('PickupObject','Pencil')"
+      ],
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place the wine bottle in the fridge to put it in the trash can.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','WineBottle')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','WineBottle', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','WineBottle')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','GarbageCan')"
+      ],
+      [
+        "('PutObject','WineBottle', 'GarbageCan')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "To put a sponge in a pan and move the pan to the counter. ",
+    "gold_traj": [
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PickupObject','DishSponge')"
+      ],
+      [
+        "('Navigation','Pan')"
+      ],
+      [
+        "('PutObject','DishSponge', 'Pan')"
+      ],
+      [
+        "('PickupObject','Pan')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','Pan', 'CounterTop')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "put the spoon and the plate into the door under the sink",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','Ladle')"
+      ],
+      [
+        "('Navigation','Bowl')"
+      ],
+      [
+        "('PutObject','Ladle', 'Bowl')"
+      ],
+      [
+        "('PickupObject','Bowl')"
+      ],
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PutObject','Bowl', 'Cabinet')",
+        "('CloseObject','Cabinet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "To heat a piece of apple and place it on the edge of the white table.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Apple')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Apple')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'Fridge')"
+      ],
+      [
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','AppleSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','AppleSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','AppleSliced', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a heated potato slice in the fridge.",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','Knife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Knife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','PotatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "examine a pillow with a lamp",
+    "gold_traj": [
+      [
+        "('Navigation','Bed')"
+      ],
+      [
+        "('PickupObject','Pillow')"
+      ],
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a cooled potato slice on a table. ",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('SliceObject','Potato')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','ButterKnife', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'DiningTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move the pot with a potato slice from the freezer to the sink.",
+    "gold_traj": [
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','Pot')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','PotatoSliced', 'Pot')"
+      ],
+      [
+        "('PickupObject','Pot')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','Pot', 'Sink')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a box with the credit card on the blue sofa chair.",
+    "gold_traj": [
+      [
+        "('Navigation','Box')"
+      ],
+      [
+        "('PickupObject','Box')"
+      ],
+      [
+        "('Navigation','ArmChair')"
+      ],
+      [
+        "('PutObject','Box', 'ArmChair')"
+      ],
+      [
+        "('Navigation','CoffeeTable')"
+      ],
+      [
+        "('PickupObject','CreditCard')"
+      ],
+      [
+        "('Navigation','Box')"
+      ],
+      [
+        "('PutObject','CreditCard', 'Box')",
+        "('CloseObject','Box')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Move a spray bottle to the toilet tank",
+    "gold_traj": [
+      [
+        "('Navigation','Cabinet')"
+      ],
+      [
+        "('OpenObject','Cabinet')",
+        "('PickupObject','SprayBottle')",
+        "('CloseObject','Cabinet')"
+      ],
+      [
+        "('Navigation','Toilet')"
+      ],
+      [
+        "('PutObject','SprayBottle', 'Toilet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "put a washed and cut lettuce slice inside fridge",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('SliceObject','Lettuce')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','LettuceSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','LettuceSliced')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','LettuceSliced', 'Fridge')",
+        "('CloseObject','Fridge')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a washed slice of potato in the microwave.",
+    "gold_traj": [
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('SliceObject','Potato')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','ButterKnife', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','SinkBasin')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'Sink')",
+        "('ToggleObjectOn','Faucet')",
+        "('ToggleObjectOff','Faucet')",
+        "('PickupObject','PotatoSliced')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','PotatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Pick a computer up and turn a lamp on.",
+    "gold_traj": [
+      [
+        "('Navigation','Bed')"
+      ],
+      [
+        "('CloseObject','Laptop')",
+        "('PickupObject','Laptop')"
+      ],
+      [
+        "('Navigation','DeskLamp')"
+      ],
+      [
+        "('ToggleObjectOn','DeskLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "To look at the laptop in the light. ",
+    "gold_traj": [
+      [
+        "('Navigation','Sofa')"
+      ],
+      [
+        "('CloseObject','Laptop')",
+        "('PickupObject','Laptop')"
+      ],
+      [
+        "('Navigation','FloorLamp')"
+      ],
+      [
+        "('ToggleObjectOn','FloorLamp')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put the pink bottle on the toilet",
+    "gold_traj": [
+      [
+        "('Navigation','Shelf')"
+      ],
+      [
+        "('PickupObject','SoapBottle')"
+      ],
+      [
+        "('Navigation','Toilet')"
+      ],
+      [
+        "('PutObject','SoapBottle', 'Toilet')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put a chilled apple in the microwave. ",
+    "gold_traj": [
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PickupObject','Apple')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PutObject','Apple', 'Fridge')",
+        "('CloseObject','Fridge')",
+        "('OpenObject','Fridge')",
+        "('PickupObject','Apple')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','Apple', 'Microwave')",
+        "('CloseObject','Microwave')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Place a piece of microwaved fruit on the black table",
+    "gold_traj": [
+      [
+        "('Navigation','DiningTable')"
+      ],
+      [
+        "('PickupObject','ButterKnife')"
+      ],
+      [
+        "('Navigation','Potato')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('SliceObject','Potato')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','CounterTop')"
+      ],
+      [
+        "('PutObject','ButterKnife', 'CounterTop')"
+      ],
+      [
+        "('Navigation','Fridge')"
+      ],
+      [
+        "('OpenObject','Fridge')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Fridge')"
+      ],
+      [
+        "('Navigation','Microwave')"
+      ],
+      [
+        "('OpenObject','Microwave')",
+        "('PutObject','PotatoSliced', 'Microwave')",
+        "('CloseObject','Microwave')",
+        "('ToggleObjectOn','Microwave')",
+        "('ToggleObjectOff','Microwave')",
+        "('OpenObject','Microwave')",
+        "('PickupObject','PotatoSliced')",
+        "('CloseObject','Microwave')"
+      ],
+      [
+        "('Navigation','SideTable')"
+      ],
+      [
+        "('PutObject','PotatoSliced', 'SideTable')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Turn on a lamp while holding a laptop.",
+    "gold_traj": [
+      [
+        "('Navigation','Sofa')"
+      ],
+      [
+        "('CloseObject','Laptop')",
+        "('PickupObject','Laptop')"
+      ],
+      [
+        "('Navigation','FloorLamp')"
+      ],
+      [
+        "('ToggleObjectOn','FloorLamp')"
+      ]
+    ]
+  }
+]

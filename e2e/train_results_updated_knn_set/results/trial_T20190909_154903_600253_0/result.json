@@ -1,0 +1,92 @@
+{
+  "trial": "trial_T20190909_154903_600253",
+  "scene": "FloorPlan412",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "Move a spray bottle to the toilet tank",
+  "initial_high_level_plans": [
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation spraybottle",
+    "PickupObject spraybottle",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "PutObject spraybottle toilet"
+  ],
+  "completed_plans": [
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation spraybottle",
+    "PickupObject spraybottle",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation spraybottle",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation spraybottle",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "PutObject spraybottle toilet"
+  ],
+  "dynamic_plans": [
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet"
+  ],
+  "failed_plans": [
+    {
+      "plan": "CloseObject cabinet",
+      "error": "Close action failed"
+    },
+    {
+      "plan": "PickupObject spraybottle",
+      "error": "Robot is currently holding SprayBottle"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject spraybottle",
+      "error": "Robot is currently holding SprayBottle"
+    }
+  ],
+  "success": true
+}

@@ -1,0 +1,30 @@
+{
+  "trial": "trial_T20190908_233657_231915",
+  "scene": "FloorPlan25",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "Cut a tomato on the counter",
+  "initial_high_level_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation tomato",
+    "Navigation tomato",
+    "Navigation tomato",
+    "SliceObject tomato"
+  ],
+  "completed_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation tomato",
+    "Navigation tomato",
+    "Navigation tomato",
+    "SliceObject tomato"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

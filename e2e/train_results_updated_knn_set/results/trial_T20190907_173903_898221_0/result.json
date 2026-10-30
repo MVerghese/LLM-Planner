@@ -1,0 +1,34 @@
+{
+  "trial": "trial_T20190907_173903_898221",
+  "scene": "FloorPlan206",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "Move a laptop from a coffee table to an armchair.",
+  "initial_high_level_plans": [
+    "Navigation laptop",
+    "Navigation laptop",
+    "Navigation laptop",
+    "CloseObject laptop",
+    "Navigation laptop",
+    "PickupObject laptop",
+    "Navigation armchair",
+    "Navigation armchair",
+    "Navigation armchair",
+    "PutObject laptop armchair"
+  ],
+  "completed_plans": [
+    "Navigation laptop",
+    "Navigation laptop",
+    "Navigation laptop",
+    "CloseObject laptop",
+    "Navigation laptop",
+    "PickupObject laptop",
+    "Navigation armchair",
+    "Navigation armchair",
+    "Navigation armchair",
+    "PutObject laptop armchair"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

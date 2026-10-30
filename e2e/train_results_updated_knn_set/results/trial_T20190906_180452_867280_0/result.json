@@ -1,0 +1,102 @@
+{
+  "trial": "trial_T20190906_180452_867280",
+  "scene": "FloorPlan317",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "To move the CD from the drawer to the safe.",
+  "initial_high_level_plans": [
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation cd",
+    "PickupObject cd",
+    "Navigation drawer",
+    "CloseObject drawer",
+    "Navigation safe",
+    "Navigation safe",
+    "Navigation safe",
+    "OpenObject safe",
+    "Navigation safe",
+    "PutObject cd safe",
+    "Navigation safe",
+    "CloseObject safe"
+  ],
+  "completed_plans": [
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation cd",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation cd",
+    "Navigation drawer",
+    "Navigation safe",
+    "Navigation safe",
+    "Navigation safe",
+    "OpenObject safe",
+    "Navigation safe",
+    "Navigation safe",
+    "CloseObject safe"
+  ],
+  "dynamic_plans": [
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation cd, PickupObject cd, Navigation drawer, CloseObject drawer, Navigation safe, Navigation safe, Navigation safe, OpenObject safe, Navigation safe, PutObject cd safe, Navigation safe, CloseObject safe",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation cd, PickupObject cd, Navigation drawer, CloseObject drawer, Navigation safe, Navigation safe, Navigation safe, OpenObject safe, Navigation safe, PutObject cd safe, Navigation safe, CloseObject safe",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation cd, PickupObject cd, Navigation drawer, CloseObject drawer, Navigation safe, Navigation safe, Navigation safe, OpenObject safe, Navigation safe, PutObject cd safe, Navigation safe, CloseObject safe",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation cd, PickupObject cd, Navigation drawer, CloseObject drawer, Navigation safe, Navigation safe, Navigation safe, OpenObject safe, Navigation safe, PutObject cd safe, Navigation safe, CloseObject safe",
+    "Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation cd, PickupObject cd, Navigation drawer, CloseObject drawer, Navigation safe, Navigation safe, Navigation safe, OpenObject safe, Navigation safe, PutObject cd safe, Navigation safe, CloseObject safe"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PickupObject cd",
+      "error": "Cd is not visible because it is in Drawer"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject cd",
+      "error": "Cd is not visible because it is in Drawer"
+    },
+    {
+      "plan": "CloseObject drawer",
+      "error": "Close action failed"
+    },
+    {
+      "plan": "PutObject cd safe",
+      "error": "Robot is not holding any object"
+    }
+  ],
+  "success": false
+}

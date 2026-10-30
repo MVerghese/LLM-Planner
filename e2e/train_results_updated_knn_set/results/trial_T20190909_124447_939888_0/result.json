@@ -1,0 +1,139 @@
+{
+  "trial": "trial_T20190909_124447_939888",
+  "scene": "FloorPlan8",
+  "type": "pick_clean_then_place_in_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Place a clean knife in a drawer.",
+  "initial_high_level_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation sink",
+    "Navigation sink",
+    "Navigation sink",
+    "PutObject knife sink",
+    "Navigation faucet",
+    "ToggleObjectOn faucet",
+    "Navigation faucet",
+    "ToggleObjectOff faucet",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation drawer",
+    "PutObject knife drawer",
+    "Navigation drawer",
+    "CloseObject drawer"
+  ],
+  "completed_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation sink",
+    "Navigation sink",
+    "Navigation sink",
+    "PutObject knife sink",
+    "Navigation faucet",
+    "ToggleObjectOn faucet",
+    "Navigation faucet",
+    "ToggleObjectOff faucet",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation drawer",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation sink",
+    "Navigation sink",
+    "Navigation sink",
+    "PutObject knife sink",
+    "Navigation faucet",
+    "ToggleObjectOn faucet",
+    "Navigation faucet",
+    "ToggleObjectOff faucet",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation sink",
+    "Navigation sink",
+    "Navigation sink",
+    "PutObject knife sink",
+    "Navigation faucet",
+    "ToggleObjectOn faucet",
+    "Navigation faucet",
+    "ToggleObjectOff faucet",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "CloseObject drawer"
+  ],
+  "dynamic_plans": [
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation sink, Navigation sink, Navigation sink, PutObject knife sink, Navigation faucet, ToggleObjectOn faucet, Navigation faucet, ToggleObjectOff faucet, Navigation knife, PickupObject knife, Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation drawer, PutObject knife drawer, Navigation drawer, CloseObject drawer",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation sink, Navigation sink, Navigation sink, PutObject knife sink, Navigation faucet, ToggleObjectOn faucet, Navigation faucet, ToggleObjectOff faucet, Navigation knife, PickupObject knife, Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation drawer, PutObject knife drawer, Navigation drawer, CloseObject drawer",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation sink, Navigation sink, Navigation sink, PutObject knife sink, Navigation faucet, ToggleObjectOn faucet, Navigation faucet, ToggleObjectOff faucet, Navigation knife, PickupObject knife, Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation drawer, PutObject knife drawer, Navigation drawer, CloseObject drawer",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation sink, Navigation sink, Navigation sink, PutObject knife sink, Navigation faucet, ToggleObjectOn faucet, Navigation faucet, ToggleObjectOff faucet, Navigation knife, PickupObject knife, Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation drawer, PutObject knife drawer, Navigation drawer, CloseObject drawer",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation sink, Navigation sink, Navigation sink, PutObject knife sink, Navigation faucet, ToggleObjectOn faucet, Navigation faucet, ToggleObjectOff faucet, Navigation knife, PickupObject knife, Navigation drawer, Navigation drawer, Navigation drawer, OpenObject drawer, Navigation drawer, PutObject knife drawer, Navigation drawer, CloseObject drawer"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PutObject knife drawer",
+      "error": "put down failed"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PutObject knife drawer",
+      "error": "put down failed"
+    }
+  ],
+  "success": false
+}

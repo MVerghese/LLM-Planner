@@ -1,0 +1,42 @@
+{
+  "trial": "trial_T20190908_003226_331435",
+  "scene": "FloorPlan26",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Place a cool apple inside a pan in the fridge.",
+  "initial_high_level_plans": [
+    "Navigation pot",
+    "Navigation pot",
+    "Navigation pot",
+    "PickupObject pot",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "PutObject pot fridge",
+    "Navigation apple",
+    "PickupObject apple",
+    "Navigation pot",
+    "PutObject apple pot"
+  ],
+  "completed_plans": [
+    "Navigation pot",
+    "Navigation pot",
+    "Navigation pot",
+    "PickupObject pot",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "PutObject pot fridge",
+    "Navigation apple",
+    "PickupObject apple",
+    "Navigation pot",
+    "PutObject apple pot"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

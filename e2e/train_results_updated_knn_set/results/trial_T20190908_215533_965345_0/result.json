@@ -1,0 +1,34 @@
+{
+  "trial": "trial_T20190908_215533_965345",
+  "scene": "FloorPlan211",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "To look at the laptop in the light. ",
+  "initial_high_level_plans": [
+    "Navigation laptop",
+    "Navigation laptop",
+    "Navigation laptop",
+    "CloseObject laptop",
+    "Navigation laptop",
+    "PickupObject laptop",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "completed_plans": [
+    "Navigation laptop",
+    "Navigation laptop",
+    "Navigation laptop",
+    "CloseObject laptop",
+    "Navigation laptop",
+    "PickupObject laptop",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

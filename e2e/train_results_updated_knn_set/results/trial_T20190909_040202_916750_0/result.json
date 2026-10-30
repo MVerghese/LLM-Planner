@@ -1,0 +1,38 @@
+{
+  "trial": "trial_T20190909_040202_916750",
+  "scene": "FloorPlan211",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "Examine a set of keys under a tall lamp",
+  "initial_high_level_plans": [
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation keychain",
+    "PickupObject keychain",
+    "Navigation drawer",
+    "CloseObject drawer",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "completed_plans": [
+    "Navigation drawer",
+    "Navigation drawer",
+    "Navigation drawer",
+    "OpenObject drawer",
+    "Navigation keychain",
+    "PickupObject keychain",
+    "Navigation drawer",
+    "CloseObject drawer",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

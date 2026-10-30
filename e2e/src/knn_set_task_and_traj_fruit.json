@@ -1,0 +1,297 @@
+[
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'apple')"
+      ],
+      [
+        "('PutObject', 'apple', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Banana')"
+      ],
+      [
+        "('PutObject', 'Banana', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'apple')"
+      ],
+      [
+        "('PutObject', 'apple', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Purple Grape')"
+      ],
+      [
+        "('PutObject', 'Purple Grape', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lemon')"
+      ],
+      [
+        "('PutObject', 'Lemon', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lime')"
+      ],
+      [
+        "('PutObject', 'Lime', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Orange')"
+      ],
+      [
+        "('PutObject', 'Orange', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Banana')"
+      ],
+      [
+        "('PutObject', 'Banana', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Cherry')"
+      ],
+      [
+        "('PutObject', 'Cherry', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'apple')"
+      ],
+      [
+        "('PutObject', 'apple', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lime')"
+      ],
+      [
+        "('PutObject', 'Lime', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Green Grape')"
+      ],
+      [
+        "('PutObject', 'Green Grape', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Cherry')"
+      ],
+      [
+        "('PutObject', 'Cherry', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Banana')"
+      ],
+      [
+        "('PutObject', 'Banana', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Orange')"
+      ],
+      [
+        "('PutObject', 'Orange', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Cherry')"
+      ],
+      [
+        "('PutObject', 'Cherry', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lemon')"
+      ],
+      [
+        "('PutObject', 'Lemon', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'apple')"
+      ],
+      [
+        "('PutObject', 'apple', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lime')"
+      ],
+      [
+        "('PutObject', 'Lime', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Green Grape')"
+      ],
+      [
+        "('PutObject', 'Green Grape', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Orange')"
+      ],
+      [
+        "('PutObject', 'Orange', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lemon')"
+      ],
+      [
+        "('PutObject', 'Lemon', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Banana')"
+      ],
+      [
+        "('PutObject', 'Banana', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'apple')"
+      ],
+      [
+        "('PutObject', 'apple', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Cherry')"
+      ],
+      [
+        "('PutObject', 'Cherry', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  },
+  {
+    "task_instr": "Put away the fruits in the drawer. ",
+    "gold_traj": [
+      [
+        "('OpenObject', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Purple Grape')"
+      ],
+      [
+        "('PutObject', 'Purple Grape', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Banana')"
+      ],
+      [
+        "('PutObject', 'Banana', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Lime')"
+      ],
+      [
+        "('PutObject', 'Lime', 'Drawer')"
+      ],
+      [
+        "('PickupObject', 'Orange')"
+      ],
+      [
+        "('PutObject', 'Orange', 'Drawer')"
+      ],
+      [
+        "('CloseObject', 'Drawer')"
+      ]
+    ]
+  }
+]

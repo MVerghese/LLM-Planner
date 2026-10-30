@@ -1,0 +1,30 @@
+{
+  "trial": "trial_T20190908_135012_910702",
+  "scene": "FloorPlan319",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "pick up a pencil and view it in the light of the lamp",
+  "initial_high_level_plans": [
+    "Navigation pencil",
+    "Navigation pencil",
+    "Navigation pencil",
+    "PickupObject pencil",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp"
+  ],
+  "completed_plans": [
+    "Navigation pencil",
+    "Navigation pencil",
+    "Navigation pencil",
+    "PickupObject pencil",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

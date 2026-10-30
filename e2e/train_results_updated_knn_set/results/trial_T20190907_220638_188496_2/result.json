@@ -1,0 +1,82 @@
+{
+  "trial": "trial_T20190907_220638_188496",
+  "scene": "FloorPlan216",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 2,
+  "goal_instr": "examine a pillow with a lamp",
+  "initial_high_level_plans": [
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "PickupObject pillow",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "completed_plans": [
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "PickupObject pillow",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation pillow",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp"
+  ],
+  "dynamic_plans": [
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp",
+    "Navigation pillow, Navigation pillow, Navigation pillow, PickupObject pillow, Navigation floorlamp, Navigation floorlamp, Navigation floorlamp, ToggleObjectOn floorlamp"
+  ],
+  "failed_plans": [
+    {
+      "plan": "ToggleObjectOn floorlamp",
+      "error": "Turn on action failed"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "PickupObject pillow",
+      "error": "Robot is currently holding Pillow"
+    },
+    {
+      "plan": "ToggleObjectOn floorlamp",
+      "error": "Turn on action failed"
+    }
+  ],
+  "success": false
+}

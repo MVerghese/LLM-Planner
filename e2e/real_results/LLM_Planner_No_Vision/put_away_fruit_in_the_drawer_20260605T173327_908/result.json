@@ -1,0 +1,82 @@
+{
+  "goal_instr": "Put Away Fruit in the Drawer",
+  "initial_high_level_plans": [
+    "OpenObject drawer",
+    "PickupObject banana",
+    "PutObject banana drawer",
+    "PickupObject lemon",
+    "PutObject lemon drawer",
+    "PickupObject lime",
+    "PutObject lime drawer",
+    "PickupObject grapes",
+    "PutObject grapes drawer",
+    "CloseObject drawer"
+  ],
+  "completed_plans": [
+    "OpenObject drawer",
+    "PickupObject banana",
+    "PutObject banana drawer",
+    "PickupObject lemon",
+    "PutObject lemon drawer",
+    "PickupObject lime",
+    "PutObject lime drawer",
+    "PutObject lemon drawer",
+    "PutObject lime drawer"
+  ],
+  "dynamic_plans": [
+    "PickupObject grapes, PutObject grapes drawer, CloseObject drawer",
+    "PickupObject grapes, PutObject grapes drawer, CloseObject drawer",
+    "PickupObject grapes, PutObject grapes drawer, CloseObject drawer",
+    "PickupObject grapes, PutObject grapes drawer, CloseObject drawer",
+    "OpenObject drawer, PickupObject lemon, PutObject lemon drawer, PickupObject lime, PutObject lime drawer, CloseObject drawer"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PickupObject grapes",
+      "error": ""
+    },
+    {
+      "plan": "PickupObject grapes",
+      "error": ""
+    },
+    {
+      "plan": "PutObject grapes drawer",
+      "error": ""
+    },
+    {
+      "plan": "PickupObject grapes",
+      "error": ""
+    },
+    {
+      "plan": "PickupObject grapes",
+      "error": ""
+    },
+    {
+      "plan": "PutObject grapes drawer",
+      "error": ""
+    },
+    {
+      "plan": "PickupObject grapes",
+      "error": ""
+    },
+    {
+      "plan": "OpenObject drawer",
+      "error": ""
+    },
+    {
+      "plan": "PickupObject lemon",
+      "error": ""
+    },
+    {
+      "plan": "PickupObject lime",
+      "error": ""
+    },
+    {
+      "plan": "CloseObject drawer",
+      "error": ""
+    }
+  ],
+  "success": false,
+  "trial": "put_away_fruit_in_the_drawer",
+  "repeat_idx": "20260605T173327_908"
+}

@@ -1,0 +1,119 @@
+{
+  "trial": "trial_T20190909_213600_430769",
+  "scene": "FloorPlan5",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Microwave a potato in a bowl.",
+  "initial_high_level_plans": [
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "PickupObject potato",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation bowl",
+    "PutObject potato bowl",
+    "Navigation bowl",
+    "PickupObject bowl",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation microwave",
+    "PutObject bowl microwave",
+    "Navigation microwave",
+    "CloseObject microwave"
+  ],
+  "completed_plans": [
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "PickupObject potato",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation bowl",
+    "PutObject potato bowl",
+    "Navigation bowl",
+    "PickupObject bowl",
+    "Navigation cabinet",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation potato",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation bowl",
+    "Navigation bowl",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation microwave",
+    "PutObject bowl microwave",
+    "Navigation microwave",
+    "CloseObject microwave"
+  ],
+  "dynamic_plans": [
+    "Navigation potato, Navigation potato, Navigation potato, PickupObject potato, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation bowl, PutObject potato bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, CloseObject cabinet, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject bowl microwave, Navigation microwave, CloseObject microwave",
+    "Navigation potato, Navigation potato, Navigation potato, PickupObject potato, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation bowl, PutObject potato bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, CloseObject cabinet, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject bowl microwave, Navigation microwave, CloseObject microwave",
+    "Navigation potato, Navigation potato, Navigation potato, PickupObject potato, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation bowl, PutObject potato bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, CloseObject cabinet, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject bowl microwave, Navigation microwave, CloseObject microwave",
+    "Navigation potato, Navigation potato, Navigation potato, PickupObject potato, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation bowl, PutObject potato bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, CloseObject cabinet, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject bowl microwave, Navigation microwave, CloseObject microwave",
+    "Navigation potato, Navigation potato, Navigation potato, PickupObject potato, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation bowl, PutObject potato bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, CloseObject cabinet, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject bowl microwave, Navigation microwave, CloseObject microwave"
+  ],
+  "failed_plans": [
+    {
+      "plan": "CloseObject cabinet",
+      "error": "Close action failed"
+    },
+    {
+      "plan": "PickupObject potato",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject potato",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject potato",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject potato",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject potato",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PutObject potato bowl",
+      "error": "Cannot find Bowl"
+    },
+    {
+      "plan": "PickupObject bowl",
+      "error": "Robot is currently holding Bowl"
+    }
+  ],
+  "success": true
+}

@@ -27,12 +27,13 @@ import textwrap
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
 import pandas as pd
-from utils import encode_image
+from e2e_utils import encode_image
 
 from alfred.thor_connector import ThorConnector
 from alfred.utils import dotdict, load_task_json
 from alfred.data.preprocess import Dataset
 from hlp_planner import LLM_Planner, Tree_Search_LLM_Planner, Entropy_reduction_LLM_Planner, GT_Planner
+from Inference_Interface import is_closed_source_engine
 import threading
 from multiprocessing.pool import ThreadPool
 
@@ -65,14 +66,20 @@ class AlfredEvaluator:
         with open(config_file) as reader:
             self.config = yaml.safe_load(reader)
         
-        # # Initialize OpenAI client
-        # self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-        # Initialize VLLM client
-        self.client = OpenAI(
-            base_url="http://localhost:8000/v1",
-            api_key="token-abc123",
-        )
-        
+        # For local VLLM-served models we connect to the local inference
+        # server. For closed-source models (OpenAI / Anthropic) the
+        # planner constructs its own remote client via
+        # ``InferenceInterface`` and this VLLM client is unused.
+        engine = self.config["llm_planner"]["engine"]
+        if is_closed_source_engine(engine):
+            self.client = None
+            log.info(f"Using closed-source engine '{engine}'. Skipping local VLLM client.")
+        else:
+            self.client = OpenAI(
+                base_url="http://localhost:8000/v1",
+                api_key="token-abc123",
+            )
+
         # Initialize LLM planner
         self.llm_planner = PLANNERS[self.config["llm_planner"]["planner"]](  # Use the planner name from config
             llm_config=self.config["llm_planner"],
@@ -115,92 +122,15 @@ class AlfredEvaluator:
         # Debug mode
         if self.config.get("debug", False):
             for task in tasks:
-                if 'trial_T20190909_061130_844814' in task['task']: #NOTE Change this to the task you want to debug
+                if 'trial_T20190918_143430_997524' in task['task']: #NOTE Change this to the task you want to debug
                     new_task = [task]
                     break
             tasks = new_task
             
         return tasks
-    
-    def llm(self, prompt, engine, images=None, stop=["\n"]):
-        """
-        Interface to LLM models
-        This function is deprecated with the shift of LLM processing to the planner
-        """
-
-        if engine == 'gpt-4o-mini' or engine == 'gpt-4o':
-            # Create the base message content
-            message_content = []
-            
-            # Add image if provided
-            if images and len(images) > 0:
-                message_content.append({
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{images[0]}"
-                    }
-                })
-            
-            # Add text prompt
-            message_content.append({
-                "type": "text",
-                "text": prompt,
-            })
-            
-            # Make the API call
-            response = self.client.chat.completions.create(
-                model=engine,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": message_content,
-                    }
-                ],
-                max_tokens=300,
-                temperature=0.0
-            )
-            return response.choices[0].message.content
-        elif engine == 'Qwen/Qwen3-VL-8B-Instruct' or engine == 'Qwen/Qwen3-VL-30B-A3B-Instruct-FP8':
-             # Create the base message content
-            message_content = []
-            
-
-            # Add image if provided
-            if images and len(images) > 0:
-                for image in images:
-                    message_content.append({
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpeg;base64,{image}"
-                        }
-                    })
-            
-            # Add text prompt
-            message_content.append({
-                "type": "text",
-                "text": prompt,
-            })
-            
-            # Make the API call
-            response = self.client.chat.completions.create(
-                model=engine,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": message_content,
-                    }
-                ],
-                max_tokens=300,
-                temperature=0.0
-            )
-            return response.choices[0].message.content
-
-        else:
-            raise ValueError(f"{engine} is not supported!")
 
 
-
-    def evaluate_task(self, engine, traj_data, r_idx, dynamic=False, to_print=True, vision=False, ob='', env=None):
+    def evaluate_task(self, traj_data, r_idx, dynamic=False, vision=False, env=None):
         """Evaluate a single task"""
 
         # This handles using multiple environments for multiprocessing
@@ -300,6 +230,7 @@ class AlfredEvaluator:
         # Setup counters
         retry_count = 0
         replanning_count = 0  # Track total replanning attempts for this task
+        previous_plan = ""
         
         # Run until high-level plans are exhausted
         while high_level_plans and replanning_count <= max_replanning:
@@ -316,6 +247,10 @@ class AlfredEvaluator:
                 object_name = ""
             
             try:
+                # Reset retry count if the plan is different from the previous plan
+                if plan != previous_plan:
+                    retry_count = 0
+                previous_plan = plan
                 action_ret = env.llm_skill_interact(plan)
                 
             except Exception as e:
@@ -544,7 +479,6 @@ class AlfredEvaluator:
                 log.debug(f"Evaluating ({task_idx+1}/{len(self.tasks)}): {traj_data['root']}")
                 
                 result = self.evaluate_task(
-                    self.config["llm_planner"]["engine"],
                     traj_data, 
                     r_idx,
                     dynamic=self.config["llm_planner"]["dynamic"],
@@ -583,6 +517,7 @@ class AlfredEvaluator:
         
         # Print results
         self._print_results(results, start)
+        log.info(f"Total LLM calls: {self.llm_planner.get_llm_call_count()}")
         return results
 
     def run_evaluation_helper(self, task, task_idx, save_path):
@@ -600,7 +535,6 @@ class AlfredEvaluator:
             log.debug(f"Evaluating ({task_idx+1}/{len(self.tasks)}): {traj_data['root']}")
             
             result = self.evaluate_task(
-                self.config["llm_planner"]["engine"],
                 traj_data, 
                 r_idx,
                 dynamic=self.config["llm_planner"]["dynamic"],
@@ -771,27 +705,6 @@ class AlfredEvaluator:
             dataset = Dataset(dotdict(args_dict), vocab)
             dataset.preprocess_splits(self.splits)
 
-    def clean_llm_output(self, llm_out):
-        """
-        Clean the LLM output by removing the 'Next Plans:' prefix and converting to a comma-separated list.
-        
-        Args:
-            llm_out (str): Raw LLM output string like "Next Plans: Navigation countertop, OpenObject microwave, ..."
-            
-        Returns:
-            list: List of cleaned plan steps
-        """
-        # Remove "Next Plans:" prefix if present
-        if "Next Plans:" in llm_out:
-            cleaned_text = llm_out.split("Next Plans:")[1].strip()
-        else:
-            cleaned_text = llm_out.strip()
-        
-        # Split by comma and strip whitespace from each item
-        plans = [plan.strip() for plan in cleaned_text.split(',')]
-        
-        return plans
-
     def match_object_name(self, generated_name, available_objects):
         """
         Match a generated object name to available objects using sentence embeddings.
@@ -870,7 +783,6 @@ def run_evaluation_helper(task, task_idx, save_path):
         log.debug(f"Evaluating ({task_idx+1}/{len(self.tasks)}): {traj_data['root']}")
         
         result = self.evaluate_task(
-            self.config["llm_planner"]["engine"],
             traj_data, 
             r_idx,
             dynamic=self.config["llm_planner"]["dynamic"],

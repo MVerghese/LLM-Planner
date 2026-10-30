@@ -1,0 +1,26 @@
+{
+  "trial": "trial_T20190909_051958_854080",
+  "scene": "FloorPlan309",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 0,
+  "goal_instr": "To turn on a lamp and pick up a pen. ",
+  "initial_high_level_plans": [
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp",
+    "Navigation pen",
+    "PickupObject pen"
+  ],
+  "completed_plans": [
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "Navigation desklamp",
+    "ToggleObjectOn desklamp",
+    "Navigation pen",
+    "PickupObject pen"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

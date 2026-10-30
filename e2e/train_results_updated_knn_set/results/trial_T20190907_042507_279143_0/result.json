@@ -1,0 +1,146 @@
+{
+  "trial": "trial_T20190907_042507_279143",
+  "scene": "FloorPlan30",
+  "type": "pick_cool_then_place_in_recep",
+  "repeat_idx": 0,
+  "goal_instr": "place a cooled tomato slice inside of the microwave",
+  "initial_high_level_plans": [
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "PickupObject butterknife",
+    "Navigation tomato",
+    "SliceObject tomato",
+    "Navigation sink",
+    "PutObject butterknife sink",
+    "Navigation tomato",
+    "PickupObject tomato",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "PutObject tomato fridge",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation tomato",
+    "PickupObject tomato",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation microwave",
+    "PutObject tomato microwave",
+    "Navigation microwave",
+    "CloseObject microwave"
+  ],
+  "completed_plans": [
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "PickupObject butterknife",
+    "Navigation tomato",
+    "SliceObject tomato",
+    "Navigation sink",
+    "PutObject butterknife sink",
+    "Navigation tomato",
+    "PickupObject tomato",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "PickupObject butterknife",
+    "Navigation tomato",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation butterknife",
+    "Navigation tomato",
+    "Navigation sink",
+    "PutObject butterknife sink",
+    "Navigation tomato",
+    "PickupObject tomato",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation tomato",
+    "PickupObject tomato",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation microwave",
+    "PutObject tomato microwave",
+    "Navigation microwave",
+    "CloseObject microwave"
+  ],
+  "dynamic_plans": [
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation tomato, SliceObject tomato, Navigation sink, PutObject butterknife sink, Navigation tomato, PickupObject tomato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject tomato fridge, Navigation fridge, CloseObject fridge, Navigation fridge, OpenObject fridge, Navigation tomato, PickupObject tomato, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject tomato microwave, Navigation microwave, CloseObject microwave",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation tomato, SliceObject tomato, Navigation sink, PutObject butterknife sink, Navigation tomato, PickupObject tomato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject tomato fridge, Navigation fridge, CloseObject fridge, Navigation fridge, OpenObject fridge, Navigation tomato, PickupObject tomato, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject tomato microwave, Navigation microwave, CloseObject microwave",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation tomato, SliceObject tomato, Navigation sink, PutObject butterknife sink, Navigation tomato, PickupObject tomato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject tomato fridge, Navigation fridge, CloseObject fridge, Navigation fridge, OpenObject fridge, Navigation tomato, PickupObject tomato, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject tomato microwave, Navigation microwave, CloseObject microwave",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation tomato, SliceObject tomato, Navigation sink, PutObject butterknife sink, Navigation tomato, PickupObject tomato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject tomato fridge, Navigation fridge, CloseObject fridge, Navigation fridge, OpenObject fridge, Navigation tomato, PickupObject tomato, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject tomato microwave, Navigation microwave, CloseObject microwave",
+    "Navigation butterknife, Navigation butterknife, Navigation butterknife, PickupObject butterknife, Navigation tomato, SliceObject tomato, Navigation sink, PutObject butterknife sink, Navigation tomato, PickupObject tomato, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject tomato fridge, Navigation fridge, CloseObject fridge, Navigation fridge, OpenObject fridge, Navigation tomato, PickupObject tomato, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation microwave, PutObject tomato microwave, Navigation microwave, CloseObject microwave"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PutObject tomato fridge",
+      "error": "put down failed"
+    },
+    {
+      "plan": "SliceObject tomato",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "PickupObject butterknife",
+      "error": "Robot is currently holding ButterKnife"
+    },
+    {
+      "plan": "SliceObject tomato",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "OpenObject fridge",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PutObject tomato fridge",
+      "error": "put down failed"
+    }
+  ],
+  "success": false
+}

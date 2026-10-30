@@ -1,0 +1,30 @@
+{
+  "trial": "trial_T20190909_055949_932969",
+  "scene": "FloorPlan221",
+  "type": "look_at_obj_in_light",
+  "repeat_idx": 1,
+  "goal_instr": "examine keys with the lamp",
+  "initial_high_level_plans": [
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "PickupObject keychain",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "completed_plans": [
+    "Navigation keychain",
+    "Navigation keychain",
+    "Navigation keychain",
+    "PickupObject keychain",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "Navigation floorlamp",
+    "ToggleObjectOn floorlamp"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}

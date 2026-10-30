@@ -1,0 +1,136 @@
+{
+  "trial": "trial_T20190918_203543_908484",
+  "scene": "FloorPlan19",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "Place an apple slice on the table.",
+  "initial_high_level_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "SliceObject apple",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject knife diningtable",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "PickupObject apple",
+    "Navigation plate",
+    "Navigation plate",
+    "Navigation plate",
+    "PutObject apple plate",
+    "Navigation plate",
+    "PickupObject plate",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject plate diningtable"
+  ],
+  "completed_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "SliceObject apple",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject knife diningtable",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject knife diningtable",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation apple",
+    "Navigation plate",
+    "Navigation plate",
+    "Navigation plate",
+    "Navigation plate",
+    "PickupObject plate",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "Navigation diningtable",
+    "PutObject plate diningtable"
+  ],
+  "dynamic_plans": [
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation apple, Navigation apple, Navigation apple, SliceObject apple, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject knife diningtable, Navigation apple, Navigation apple, Navigation apple, PickupObject apple, Navigation plate, Navigation plate, Navigation plate, PutObject apple plate, Navigation plate, PickupObject plate, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject plate diningtable",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation apple, Navigation apple, Navigation apple, SliceObject apple, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject knife diningtable, Navigation apple, Navigation apple, Navigation apple, PickupObject apple, Navigation plate, Navigation plate, Navigation plate, PutObject apple plate, Navigation plate, PickupObject plate, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject plate diningtable",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation apple, Navigation apple, Navigation apple, SliceObject apple, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject knife diningtable, Navigation apple, Navigation apple, Navigation apple, PickupObject apple, Navigation plate, Navigation plate, Navigation plate, PutObject apple plate, Navigation plate, PickupObject plate, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject plate diningtable",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation apple, Navigation apple, Navigation apple, SliceObject apple, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject knife diningtable, Navigation apple, Navigation apple, Navigation apple, PickupObject apple, Navigation plate, Navigation plate, Navigation plate, PutObject apple plate, Navigation plate, PickupObject plate, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject plate diningtable",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation apple, Navigation apple, Navigation apple, SliceObject apple, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject knife diningtable, Navigation apple, Navigation apple, Navigation apple, PickupObject apple, Navigation plate, Navigation plate, Navigation plate, PutObject apple plate, Navigation plate, PickupObject plate, Navigation diningtable, Navigation diningtable, Navigation diningtable, PutObject plate diningtable"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PickupObject apple",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "SliceObject apple",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "SliceObject apple",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "PickupObject apple",
+      "error": "Robot is not holding any object"
+    },
+    {
+      "plan": "PutObject apple plate",
+      "error": "Robot is not holding any object"
+    }
+  ],
+  "success": false
+}

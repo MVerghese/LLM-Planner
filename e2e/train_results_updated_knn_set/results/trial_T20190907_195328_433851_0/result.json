@@ -1,0 +1,120 @@
+{
+  "trial": "trial_T20190907_195328_433851",
+  "scene": "FloorPlan4",
+  "type": "pick_and_place_with_movable_recep",
+  "repeat_idx": 0,
+  "goal_instr": "put the spoon and the plate into the door under the sink",
+  "initial_high_level_plans": [
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "PickupObject ladle",
+    "Navigation bowl",
+    "Navigation bowl",
+    "Navigation bowl",
+    "PutObject ladle bowl",
+    "Navigation bowl",
+    "PickupObject bowl",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation cabinet",
+    "PutObject bowl cabinet",
+    "Navigation cabinet",
+    "CloseObject cabinet"
+  ],
+  "completed_plans": [
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "PickupObject ladle",
+    "Navigation bowl",
+    "Navigation bowl",
+    "Navigation bowl",
+    "PutObject ladle bowl",
+    "Navigation bowl",
+    "PickupObject bowl",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation ladle",
+    "Navigation bowl",
+    "Navigation bowl",
+    "Navigation bowl",
+    "Navigation bowl",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet"
+  ],
+  "dynamic_plans": [
+    "Navigation ladle, Navigation ladle, Navigation ladle, PickupObject ladle, Navigation bowl, Navigation bowl, Navigation bowl, PutObject ladle bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation cabinet, PutObject bowl cabinet, Navigation cabinet, CloseObject cabinet",
+    "Navigation ladle, Navigation ladle, Navigation ladle, PickupObject ladle, Navigation bowl, Navigation bowl, Navigation bowl, PutObject ladle bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation cabinet, PutObject bowl cabinet, Navigation cabinet, CloseObject cabinet",
+    "Navigation ladle, Navigation ladle, Navigation ladle, PickupObject ladle, Navigation bowl, Navigation bowl, Navigation bowl, PutObject ladle bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation cabinet, PutObject bowl cabinet, Navigation cabinet, CloseObject cabinet",
+    "Navigation ladle, Navigation ladle, Navigation ladle, PickupObject ladle, Navigation bowl, Navigation bowl, Navigation bowl, PutObject ladle bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation cabinet, PutObject bowl cabinet, Navigation cabinet, CloseObject cabinet",
+    "Navigation ladle, Navigation ladle, Navigation ladle, PickupObject ladle, Navigation bowl, Navigation bowl, Navigation bowl, PutObject ladle bowl, Navigation bowl, PickupObject bowl, Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation cabinet, PutObject bowl cabinet, Navigation cabinet, CloseObject cabinet"
+  ],
+  "failed_plans": [
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PickupObject ladle",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject ladle",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject ladle",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject ladle",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PickupObject ladle",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "PutObject ladle bowl",
+      "error": "Cannot find Bowl"
+    },
+    {
+      "plan": "PickupObject bowl",
+      "error": "Robot is currently holding Bowl"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PutObject bowl cabinet",
+      "error": "put down failed"
+    },
+    {
+      "plan": "CloseObject cabinet",
+      "error": "Close action failed"
+    }
+  ],
+  "success": false
+}

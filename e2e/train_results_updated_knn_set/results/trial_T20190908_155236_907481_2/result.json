@@ -1,0 +1,99 @@
+{
+  "trial": "trial_T20190908_155236_907481",
+  "scene": "FloorPlan426",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 2,
+  "goal_instr": "Move a spray bottle to the toilet tank",
+  "initial_high_level_plans": [
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "Navigation cabinet",
+    "OpenObject cabinet",
+    "Navigation spraybottle",
+    "PickupObject spraybottle",
+    "Navigation cabinet",
+    "CloseObject cabinet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "PutObject spraybottle toilet"
+  ],
+  "completed_plans": [
+    "Navigation spraybottle",
+    "PickupObject spraybottle",
+    "Navigation toilet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "PutObject spraybottle toilet"
+  ],
+  "dynamic_plans": [
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet",
+    "Navigation cabinet, Navigation cabinet, Navigation cabinet, OpenObject cabinet, Navigation spraybottle, PickupObject spraybottle, Navigation cabinet, CloseObject cabinet, Navigation toilet, Navigation toilet, Navigation toilet, PutObject spraybottle toilet"
+  ],
+  "failed_plans": [
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "OpenObject cabinet",
+      "error": "Cannot find Cabinet to open"
+    },
+    {
+      "plan": "Navigation cabinet",
+      "error": "Cannot find Cabinet"
+    },
+    {
+      "plan": "CloseObject cabinet",
+      "error": "Cannot find Cabinet to close"
+    }
+  ],
+  "success": true
+}

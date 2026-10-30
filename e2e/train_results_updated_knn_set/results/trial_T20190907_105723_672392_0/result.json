@@ -1,0 +1,166 @@
+{
+  "trial": "trial_T20190907_105723_672392",
+  "scene": "FloorPlan30",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "place an apple slice inside of the fridge",
+  "initial_high_level_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation apple",
+    "SliceObject apple",
+    "Navigation microwave",
+    "CloseObject microwave",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "PutObject knife fridge",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation apple",
+    "PickupObject apple",
+    "Navigation microwave",
+    "CloseObject microwave",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "PutObject apple fridge",
+    "Navigation fridge",
+    "CloseObject fridge"
+  ],
+  "completed_plans": [
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation apple",
+    "SliceObject apple",
+    "Navigation microwave",
+    "CloseObject microwave",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "PickupObject knife",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation apple",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation knife",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation apple",
+    "Navigation microwave",
+    "CloseObject microwave",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "CloseObject fridge",
+    "Navigation microwave",
+    "Navigation microwave",
+    "Navigation microwave",
+    "OpenObject microwave",
+    "Navigation apple",
+    "PickupObject apple",
+    "Navigation microwave",
+    "CloseObject microwave",
+    "Navigation fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "OpenObject fridge",
+    "Navigation fridge",
+    "Navigation fridge",
+    "CloseObject fridge"
+  ],
+  "dynamic_plans": [
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, SliceObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject knife fridge, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, PickupObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject apple fridge, Navigation fridge, CloseObject fridge",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, SliceObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject knife fridge, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, PickupObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject apple fridge, Navigation fridge, CloseObject fridge",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, SliceObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject knife fridge, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, PickupObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject apple fridge, Navigation fridge, CloseObject fridge",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, SliceObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject knife fridge, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, PickupObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject apple fridge, Navigation fridge, CloseObject fridge",
+    "Navigation knife, Navigation knife, Navigation knife, PickupObject knife, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, SliceObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject knife fridge, Navigation fridge, CloseObject fridge, Navigation microwave, Navigation microwave, Navigation microwave, OpenObject microwave, Navigation apple, PickupObject apple, Navigation microwave, CloseObject microwave, Navigation fridge, Navigation fridge, Navigation fridge, OpenObject fridge, Navigation fridge, PutObject apple fridge, Navigation fridge, CloseObject fridge"
+  ],
+  "failed_plans": [
+    {
+      "plan": "PutObject knife fridge",
+      "error": "put down failed"
+    },
+    {
+      "plan": "SliceObject apple",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "PickupObject knife",
+      "error": "Robot is currently holding Knife"
+    },
+    {
+      "plan": "OpenObject microwave",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "SliceObject apple",
+      "error": "Slice action failed"
+    },
+    {
+      "plan": "OpenObject fridge",
+      "error": "Open action failed"
+    },
+    {
+      "plan": "PutObject knife fridge",
+      "error": "put down failed"
+    },
+    {
+      "plan": "PutObject apple fridge",
+      "error": "put down failed"
+    }
+  ],
+  "success": false
+}

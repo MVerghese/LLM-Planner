@@ -1,0 +1,30 @@
+{
+  "trial": "trial_T20190911_233558_113756",
+  "scene": "FloorPlan429",
+  "type": "pick_and_place_simple",
+  "repeat_idx": 0,
+  "goal_instr": "Put the pink bottle on the toilet",
+  "initial_high_level_plans": [
+    "Navigation soapbottle",
+    "Navigation soapbottle",
+    "Navigation soapbottle",
+    "PickupObject soapbottle",
+    "Navigation toilet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "PutObject soapbottle toilet"
+  ],
+  "completed_plans": [
+    "Navigation soapbottle",
+    "Navigation soapbottle",
+    "Navigation soapbottle",
+    "PickupObject soapbottle",
+    "Navigation toilet",
+    "Navigation toilet",
+    "Navigation toilet",
+    "PutObject soapbottle toilet"
+  ],
+  "dynamic_plans": [],
+  "failed_plans": [],
+  "success": true
+}
